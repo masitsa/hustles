@@ -1,22 +1,21 @@
 <!doctype html>
 <html lang="en">
- <?php echo $this->load->view('includes/header', '', TRUE);?>
+ <?php echo $this->load->view('site/includes/header', '', TRUE);?>
 
 <body>
 <div id="main-wrapper">
 
-   <?php echo $this->load->view('includes/navigation', '', TRUE);?>
+   <?php echo $this->load->view('site/includes/navigation', '', TRUE);?>
 
     
    <?php echo $content;?>
    
-   <?php echo $this->load->view('includes/footer', '', TRUE);?>
+   <?php echo $this->load->view('site/includes/footer', '', TRUE);?>
 
 </div> <!-- end #main-wrapper -->
 
 <!-- Scripts -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="<?php echo base_url()."assets/themes/careers/"?>js/jquery-1.11.0.min.js"><\/script>')</script>
+<script src="<?php echo base_url().'assets/themes/jquery/'?>jquery-2.1.1.min.js"></script>
 <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7"></script>
 <script src="<?php echo base_url().'assets/themes/careers/'?>js/maplace.min.js"></script>
 <script src="<?php echo base_url().'assets/themes/careers/'?>js/jquery.ba-outside-events.min.js"></script>

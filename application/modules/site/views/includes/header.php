@@ -8,7 +8,7 @@
     <!-- Stylesheets -->
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/bootstrap.css">
-    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/font-awesome.min.css">
+	<link rel="stylesheet" href="<?php echo base_url()."assets/themes/";?>fontawesome/css/font-awesome.css">
     <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/flexslider.css">
     <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/style.css">
     <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/responsive.css">
