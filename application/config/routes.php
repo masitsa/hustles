@@ -220,7 +220,6 @@ $route['blog/search/(:any)/(:num)'] = 'site/blog/index/__/$1/$2';//search presen
 $route['gallery'] = 'site/gallery';
 $route['gallery/(:num)'] = 'site/gallery/$1';
 
-
 /*
 *	Gallery Routes
 */
@@ -228,7 +227,12 @@ $route['departments'] = 'site/departments';
 $route['departments/(:num)'] = 'site/departments/$1';
 $route['departments/(:any)'] = 'site/view_department/$1';
 
-
+/*
+*	Job seeker Routes
+*/
+$route['job-seeker-login'] = 'job_seeker/auth/login_job_seeker';
+$route['job-seeker-dashboard'] = 'job_seeker/dashboard';
+$route['complete-job/(:num)'] = 'job_seeker/complete_job/$1';
 
 /*
 *	Site Routes

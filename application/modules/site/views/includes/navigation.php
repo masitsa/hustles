@@ -64,31 +64,23 @@
 
                 <!-- Header Register -->
                 <div class="header-register">
-                    <a href="<?php echo base_url();?>login-provider" class="btn btn-link">Merchant Login</a>
+                    <a href="<?php echo base_url();?>login-provider" class="btn btn-link">Job Seeker Login</a>
                     <div>
                             <?php 
-                              echo form_open($this->uri->uri_string(),"class='form-horizontal'"); 
+                              echo form_open('job-seeker-login', "class='form-horizontal'"); 
                               ?>
-                            <input type="text" class="form-control" placeholder="Username">
-                            <input type="email" class="form-control" placeholder="Email">
-                            <input type="password" class="form-control" placeholder="Password">
-                            <input type="submit" class="btn btn-default" value="Register">
+                            <input type="email" class="form-control" placeholder="Email" name="job_seeker_email">
+                            <input type="password" class="form-control" placeholder="Password" name="job_seeker_password">
+                            <input type="submit" class="btn btn-default" value="Login">
                             <?php echo form_close();?>
                     </div>
                 </div> <!-- end .header-register -->
 
                 <!-- Header Login -->
                 <div class="header-login">
-                    <a href="index.html#" class="btn btn-link">Login</a>
-                    <div>
-                        <form action="index.html#">
-                            <input type="text" class="form-control" placeholder="Username">
-                            <input type="password" class="form-control" placeholder="Password">
-                            <input type="submit" class="btn btn-default" value="Login">
-                            <a href="index.html#" class="btn btn-link">Forgot Password?</a>
-                        </form>
-                    </div>
+                    
                 </div> <!-- end .header-login -->
+                <a href="<?php echo site_url().'login-provider';?>" class="btn btn-link pull-right">Provider Login</a>
 
             </div> <!-- end .container -->
         </div> <!-- end .header-top-bar -->

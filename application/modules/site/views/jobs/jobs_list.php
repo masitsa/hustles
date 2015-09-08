@@ -76,7 +76,7 @@
 								$day = date('j',strtotime($created));
 								$month = date('M Y',strtotime($created));
 
-								if($this->session->userdata('seeker_id') > 0)
+								if($this->session->userdata('job_seeker_login_status') == TRUE)
 								{
 									$button = '<a href="" class="read-more">Open detail</a>';
 								}
