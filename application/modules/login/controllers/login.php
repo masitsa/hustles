@@ -29,7 +29,7 @@ class Login extends MX_Controller {
 			{
 				//redirect('dashboard');
 				
-				redirect('all-users');
+				redirect('admin');
 			}
 			
 			else

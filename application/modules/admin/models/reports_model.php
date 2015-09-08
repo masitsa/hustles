@@ -212,4 +212,142 @@ class Reports_model extends CI_Model
 		
 		return $result->total_payments;
 	}
+	public function get_total_jobs()
+	{
+		//select the user by email from the database
+		$this->db->select('COUNT(job_id) AS total_jobs');
+		$this->db->where('job_status = 1');
+		$this->db->from('jobs');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_jobs;
+
+	}
+	public function get_completed_jobs()
+	{
+		//select the user by email from the database
+		$this->db->select('COUNT(job_id) AS total_jobs');
+		$this->db->where('completed = 1');
+		$this->db->from('jobs');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_jobs;
+
+	}
+
+	public function get_job_providers()
+	{
+
+		$this->db->select('COUNT(member_id) AS total_members');
+		$this->db->where('member_id > 0');
+		$this->db->from('member');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_members;
+	}
+
+	public function get_non_active_job_providers()
+	{
+
+		$this->db->select('COUNT(member_id) AS total_members');
+		$this->db->where('member_status = 0');
+		$this->db->from('member');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_members;
+	}
+	public function get_non_active_job_seekers()
+	{
+
+		$this->db->select('COUNT(job_seeker_id) AS job_seekers');
+		$this->db->where('job_seeker_status = 0');
+		$this->db->from('job_seeker');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->job_seekers;
+	}
+	public function get_diactivated_job_seekers()
+	{
+
+		$this->db->select('COUNT(job_seeker_id) AS job_seekers');
+		$this->db->where('job_seeker_status = 2');
+		$this->db->from('job_seeker');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->job_seekers;
+	}
+	public function get_job_seekers()
+	{
+
+		$this->db->select('COUNT(job_seeker_id) AS total_seekers');
+		$this->db->where('job_seeker_id > 0');
+		$this->db->from('job_seeker');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_seekers;
+	}
+
+	public function get_latest_job_providers()
+	{
+		$this->db->select('*');
+		$this->db->where('member_status = 0');
+		$this->db->from('member');
+		$query = $this->db->get();
+		
+		
+		return $query;
+
+	}
+
+	public function get_latest_job_seekers()
+	{
+		$this->db->select('*');
+		$this->db->where('job_seeker_status = 0');
+		$this->db->from('job_seeker');
+		$query = $this->db->get();
+		
+		
+		return $query;
+
+	}
+
+
+	public function get_active_job_providers()
+	{
+
+		$this->db->select('COUNT(member_id) AS total_members');
+		$this->db->where('member_status = 1');
+		$this->db->from('member');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_members;
+	}
+	public function get_active_job_seekers()
+	{
+
+		$this->db->select('COUNT(job_seeker_id) AS total_seekers');
+		$this->db->where('job_seeker_status = 1');
+		$this->db->from('job_seeker');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_seekers;
+	}
 }

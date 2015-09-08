@@ -1,3 +1,75 @@
+<script type="text/javascript">
+	
+	//Add to cart
+    $(document).on("click","a.activate_job_seeker",function()
+    {
+    	var config_url = '<?php echo site_url();?>';
+        // var job_seeker_id = $(this).attr('job_seeker_id');
+  	// alert($(this).attr('href'));
+        $.ajax({
+            type:'POST',
+            url: $(this).attr('href'),
+            cache:false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success:function(data){
+                
+                if(data.result == "success")
+                {
+                   
+                	window.alert("Job seeker has been succesfully activated");
+                  	window.location.href = config_url+'all-seekers';
+                }
+                else
+                {
+                	window.alert("Job seekers account has not been deactivated please try again"
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+            }
+        });
+        
+        return false;
+    });
+
+
+	$(document).on("click","a.deactivate_job_seeker",function()
+    {
+    	var config_url = '<?php echo site_url();?>';
+        // var job_seeker_id = $(this).attr('job_seeker_id');
+  	// alert($(this).attr('href'));
+        $.ajax({
+            type:'POST',
+            url: $(this).attr('href'),
+            cache:false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success:function(data){
+                
+                if(data.result == "success")
+                {
+                   
+                	window.alert("Job seeker has been succesfully deactivated");
+                  	window.location.href = config_url+'all-seekers';
+                }
+                else
+                {
+                	window.alert("Job seekers account has not been deactivated please try again");
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("XMLHttpRequest=" + xhr.responseText + "\ntextStatus=" + status + "\nerrorThrown=" + error);
+            }
+        });
+        
+        return false;
+    });
+
+</script>
+
 
 <!-- Scroll to top -->
 <span class="totop"><a href="#"><i class="icon-chevron-up"></i></a></span> 

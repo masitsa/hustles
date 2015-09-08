@@ -41,7 +41,7 @@
 				$job_seeker_last_name =  $job_applicants_row->job_seeker_last_name;
 				$job_seeker_email =  $job_applicants_row->job_seeker_email;
 				$job_seeker_phone =  $job_applicants_row->job_seeker_phone;
-				$identification_card =  $job_applicants_row->identification_card;
+				$job_seeker_national_id =  $job_applicants_row->job_seeker_national_id;
 				$job_seeker_membership_no =  $job_applicants_row->job_seeker_membership_no;
 
 				$job_seeker_status =  $job_applicants_row->job_seeker_status;
@@ -218,7 +218,7 @@
 							$job_seeker_last_name =  $job_applicants_row->job_seeker_last_name;
 							$job_seeker_email =  $job_applicants_row->job_seeker_email;
 							$job_seeker_phone =  $job_applicants_row->job_seeker_phone;
-							$identification_card =  $job_applicants_row->identification_card;
+							$job_seeker_national_id =  $job_applicants_row->job_seeker_national_id;
 							$job_seeker_membership_no =  $job_applicants_row->job_seeker_membership_no;
 							$job_seeker_request_status =  $job_applicants_row->job_seeker_request_status;
 							$job_seeker_status =  $job_applicants_row->job_seeker_status;

@@ -8,6 +8,11 @@ class Users extends admin {
 	{
 		parent:: __construct();
 		$this->load->model('users_model');
+		// $this->load->model('blog_model');
+		$this->load->model('file_model');
+		$this->load->library('image_lib');
+		//path to image directory
+		$this->posts_path = realpath(APPPATH . '../assets/images/seekers');
 	}
     
 	/*
@@ -280,6 +285,250 @@ class Users extends admin {
 		$data['tab_name'] = $tab_name;
 		
 		$this->load->view('templates/tabs', $data);
+	}
+
+
+	/*
+	*
+	*	Add a new user page
+	*
+	*/
+	public function add_seeker() 
+	{
+		//form validation rules
+		$this->form_validation->set_rules('job_seeker_email', 'Email', 'required|xss_clean|is_unique[job_seeker.job_seeker_email]|valid_email');
+		$this->form_validation->set_rules('job_seeker_other_names', 'Other Names', 'required|xss_clean');
+		$this->form_validation->set_rules('job_seeker_first_name', 'First Name', 'required|xss_clean');
+		$this->form_validation->set_rules('job_seeker_phone', 'Phone', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_address', 'Address', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_post_code', 'Post Code', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_city', 'City', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_national_id', 'Phone', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_gender_id', 'Address', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_next_of_kin_name', 'Next of Kin Name', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_next_of_kin_phone', 'Next of Kin phone', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_next_of_kin_email', 'Next of Kin email', 'xss_clean');
+		$this->form_validation->set_rules('job_seeker_next_of_kin_identity', 'Next of Kin identity', 'xss_clean');
+
+		
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			//upload product's gallery images
+			$resize['width'] = 600;
+			$resize['height'] = 800;
+			
+			if(is_uploaded_file($_FILES['post_image']['tmp_name']))
+			{
+				$posts_path = $this->posts_path;
+				/*
+					-----------------------------------------------------------------------------------------
+					Upload image
+					-----------------------------------------------------------------------------------------
+				*/
+				$response = $this->file_model->upload_file($posts_path, 'post_image', $resize);
+				if($response['check'])
+				{
+					$file_name = $response['file_name'];
+					$thumb_name = $response['thumb_name'];
+				}
+			
+				else
+				{
+					$this->session->set_userdata('error_message', $response['error']);
+					
+					$data['title'] = 'Add New Job Seeker';
+					$data['content'] = $this->load->view('seekers/add_new_seeker', '', true);
+					$this->load->view('templates/general_admin', $data);
+					break;
+				}
+			}
+			
+			else{
+				$file_name = '';
+			}
+
+			if($this->users_model->add_new_job_seeker($file_name, $thumb_name))
+			{
+				$this->session->set_userdata('success_message', 'Job Seeker added successfully');
+				redirect('all-seekers');
+			}
+			
+			else
+			{
+				$this->session->set_userdata('error_message', 'Could not add post. Please try again');
+			}
+			
+		}
+		
+		//open the add new user page
+		$data['title'] = 'Add New Job Seeker';
+		$data['content'] = $this->load->view('seekers/add_new_seeker', '', TRUE);
+		$this->load->view('templates/general_admin', $data);
+	}
+    
+	/*
+	*
+	*	Edit an existing user page
+	*	@param int $user_id
+	*
+	*/
+	public function edit_seeker($user_id) 
+	{
+		//form validation rules
+		$this->form_validation->set_rules('email', 'Email', 'required|xss_clean|valid_email');
+		$this->form_validation->set_rules('other_names', 'Other Names', 'required|xss_clean');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required|xss_clean');
+		$this->form_validation->set_rules('phone', 'Phone', 'xss_clean');
+		$this->form_validation->set_rules('address', 'Address', 'xss_clean');
+		$this->form_validation->set_rules('post_code', 'Post Code', 'xss_clean');
+		$this->form_validation->set_rules('city', 'City', 'xss_clean');
+		$this->form_validation->set_rules('activated', 'Activate User', 'xss_clean');
+		
+		//if form has been submitted
+		if ($this->form_validation->run())
+		{
+			//check if user has valid login credentials
+			if($this->users_model->edit_user($user_id))
+			{
+				$this->session->set_userdata('success_message', 'User edited successfully');
+				$pwd_update = $this->input->post('admin_user');
+				if(!empty($pwd_update))
+				{
+					redirect('admin-profile/'.$user_id);
+				}
+				
+				else
+				{
+					redirect('all-users');
+				}
+			}
+			
+			else
+			{
+				$data['error'] = 'Unable to add user. Please try again';
+			}
+		}
+		
+		//open the add new user page
+		$data['title'] = 'Edit Administrator';
+		
+		//select the user from the database
+		$query = $this->users_model->get_user($user_id);
+		if ($query->num_rows() > 0)
+		{
+			$v_data['users'] = $query->result();
+			$data['content'] = $this->load->view('users/edit_user', $v_data, true);
+		}
+		
+		else
+		{
+			$data['content'] = 'user does not exist';
+		}
+		
+		$this->load->view('templates/general_admin', $data);
+	}
+
+
+	/*
+	*
+	*	Activate an existing user page
+	*	@param int $user_id
+	*
+	*/
+	public function activate_seeker($seeker_id) 
+	{
+		if($this->users_model->activate_seeker($seeker_id))
+		{
+			$this->session->set_userdata('success_message', 'Job seeker has been activated');
+			$data['result'] = 'success';
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Job seeker could not be activated');
+			$data['result'] = 'failure';
+		}
+		
+		// echo json_encode($data);
+		
+		redirect('all-seekers');
+	}
+    
+	/*
+	*
+	*	Deactivate an existing user page
+	*	@param int $seeker_id
+	*
+	*/
+	public function deactivate_seeker($seeker_id) 
+	{
+		if($this->users_model->deactivate_seeker($seeker_id))
+		{
+			$this->session->set_userdata('success_message', 'Job seeker has been disabled');
+			$data['result'] = 'success';
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Job seeker could not be disabled');
+		$data['result'] = 'failure';
+		}
+		
+		// echo json_encode($data);
+		
+		redirect('all-seekers');
+	}
+
+
+	/*
+	*
+	*	Activate an existing user page
+	*	@param int $user_id
+	*
+	*/
+	public function activate_provider($provider_id) 
+	{
+		if($this->users_model->activate_provider($provider_id))
+		{
+			$this->session->set_userdata('success_message', 'Job provider has been activated');
+			$data['result'] = 'success';
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Job provider could not be activated');
+			$data['result'] = 'failure';
+		}
+		
+		// echo json_encode($data);
+		
+		 redirect('all-providers');
+	}
+    
+	/*
+	*
+	*	Deactivate an existing user page
+	*	@param int $provider_id
+	*
+	*/
+	public function deactivate_provider($provider_id) 
+	{
+		if($this->users_model->deactivate_provider($provider_id))
+		{
+			$this->session->set_userdata('success_message', 'Job provider has been disabled');
+			$data['result'] = 'success';
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'Job provider could not be disabled');
+		$data['result'] = 'failure';
+		}
+		
+		// echo json_encode($data);
+		
+		redirect('all-providers');
 	}
 }
 ?>

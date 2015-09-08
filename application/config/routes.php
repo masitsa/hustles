@@ -101,10 +101,12 @@ $route['edit-job/(:num)'] = 'provider/edit_job/$1';
 $route['all-providers'] = 'admin/providers';
 $route['all-providers/(:num)'] = 'admin/providers/index/$1';
 $route['delete-provider/(:num)'] = 'admin/providers/delete_provider/$1';
-$route['activate-provider/(:num)'] = 'admin/providers/activate_provider/$1';
-$route['deactivate-provider/(:num)'] = 'admin/providers/deactivate_provider/$1';
-$route['reset-provider-password/(:num)'] = 'admin/providers/reset_password/$1';
+$route['activate-job-provider/(:num)'] = 'admin/users/activate_provider/$1';
+$route['deactivate-job-provider/(:num)'] = 'admin/users/deactivate_provider/$1';
+$route['reset-provider-password/(:num)'] = 'admin/users/reset_password/$1';
 $route['provider-profile/(:num)'] = 'admin/providers/provider_profile/$1';
+$route['un-assign-task/(:num)/(:num)'] = 'provider/unassign_seeker_task/$1/$2';
+$route['all-jobs'] = 'admin/all_jobs';
 
 
 /*
@@ -112,11 +114,13 @@ $route['provider-profile/(:num)'] = 'admin/providers/provider_profile/$1';
 */
 $route['all-seekers'] = 'admin/seekers';
 $route['all-seekers/(:num)'] = 'admin/seekers/index/$1';
+$route['add-new-seeker'] = 'admin/users/add_seeker';
 $route['delete-seeker/(:num)'] = 'admin/seekers/delete_seeker/$1';
-$route['activate-seeker/(:num)'] = 'admin/seekers/activate_seeker/$1';
-$route['deactivate-seeker/(:num)'] = 'admin/seekers/deactivate_seeker/$1';
-$route['reset-seeker-password/(:num)'] = 'admin/seekers/reset_password/$1';
+$route['activate-job-seeker/(:num)'] = 'admin/users/activate_seeker/$1';
+$route['deactivate-job-seeker/(:num)'] = 'admin/users/deactivate_seeker/$1';
+$route['reset-seeker-password/(:num)'] = 'admin/users/reset_password/$1';
 $route['seeker-profile/(:num)'] = 'admin/seekers/seeker_profile/$1';
+
 /*
 *	Admin Routes
 */

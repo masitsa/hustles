@@ -72,34 +72,7 @@ class Seekers_model extends CI_Model
 		return $query;
 	}
 	
-	/*
-	*	Add a new job_seeker to the database
-	*
-	*/
-	public function add_job_seeker()
-	{
-		$data = array(
-				'job_seeker_first_name'=>ucwords(strtolower($this->input->post('job_seeker_irst_name'))),
-				'job_seeker__names'=>ucwords(strtolower($this->input->post('job_seeker_last_names'))),
-				'job_seeker_email'=>$this->input->post('job_seeker_email'),
-				'job_seeker_password'=>md5($this->input->post('job_seeker_password')),
-				'job_seeker_phone'=>$this->input->post('job_seeker_phone'),
-				'job_seeker_address'=>$this->input->post('job_seeker_address'),
-				'job_seeker_post_code'=>$this->input->post('job_seeker_post_code'),
-				'job_seeker_city'=>$this->input->post('job_seeker_city'),
-				'created'=>date('Y-m-d H:i:s'),
-				'job_seeker_type'=>2,
-				'job_seeker_status'=>$this->input->post('job_seeker_status')
-			);
-			
-		if($this->db->insert('seekers', $data))
-		{
-			return TRUE;
-		}
-		else{
-			return FALSE;
-		}
-	}
+	
 	
 	/*
 	*	Add a new front end job_seeker to the database

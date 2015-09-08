@@ -47,13 +47,13 @@
 				if($row->member_status == 0)
 				{
 					$status = '<span class="label label-important">Deactivated</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'activate-member/'.$member_id.'" onclick="return confirm(\'Do you want to activate '.$fname.'?\');">Activate</a>';
+					$button = '<a class="btn btn-danger activate_job_provider" href="'.site_url().'activate-job-provider/'.$member_id.'" onclick="return confirm(\'Do you want to activate '.$fname.'?\');">Activate</a>';
 				}
 				//create activated status display
 				else if($row->member_status == 1)
 				{
 					$status = '<span class="label label-success">Active</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'deactivate-member/'.$member_id.'" onclick="return confirm(\'Do you want to deactivate '.$fname.'?\');">Deactivate</a>';
+					$button = '<a class="btn btn-info deactivate_job_provider" href="'.site_url().'deactivate-job-provider/'.$member_id.'" onclick="return confirm(\'Do you want to deactivate '.$fname.'?\');">Deactivate</a>';
 				}
 				$count++;
 				$result .= 
@@ -88,3 +88,4 @@
 		
 		echo $result;
 ?>
+

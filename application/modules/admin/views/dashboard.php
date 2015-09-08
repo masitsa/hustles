@@ -29,14 +29,12 @@
 							<?php //echo $this->load->view('administration/summary');?>
                             <!-- Today status ends -->
                             
-                            <div class="row">
-                                <div class="col-md-12">
-                                <?php echo $this->load->view('administration/line_graph');?>
-                                </div>
-                            </div>  
+                           
+                            <?php echo $this->load->view('administration/content');?>
+                                 
                             
                             <!-- Dashboard Graph starts -->
-                            <?php echo $this->load->view('administration/bar_graph');?>
+                            <?php //echo $this->load->view('administration/bar_graph');?>
                             <!-- Dashboard graph ends --> 
                             
                             <!-- Dashboard Realtime chart starts -->
@@ -62,7 +60,6 @@
     
 <?php //echo modules::run('admin/control/notifications'); ?>
 <?php echo modules::run('admin/control/admin_footer'); ?>
-<script type="text/javascript" src="<?php echo base_url().'assets/themes/bluish/js/reports.js';?>"></script>
 
 </body>
 </html>
