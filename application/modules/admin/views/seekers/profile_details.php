@@ -7,12 +7,15 @@ foreach ($seekers_array as $seekers_row)
 		$job_seeker_last_name =  $seekers_row->job_seeker_last_name;
 		$job_seeker_email =  $seekers_row->job_seeker_email;
 		$job_seeker_phone =  $seekers_row->job_seeker_phone;
-		$identification_card =  $seekers_row->identification_card;
+		$job_seeker_national_id =  $seekers_row->job_seeker_national_id;
 		$job_seeker_membership_no =  $seekers_row->job_seeker_membership_no;
 		$job_seeker_status =  $seekers_row->job_seeker_status;
+		$job_seeker_id =  $seekers_row->job_seeker_id;
 
 	
 }
+
+	
 ?>
   <style type="text/css">
   	.add-on{cursor:pointer;}
@@ -106,36 +109,42 @@ foreach ($seekers_array as $seekers_row)
 
    		</div>
    		<div class="col-sm-4">
+   			<?php
+   			$no_of_requests = number_format($this->users_model->get_no_of_requests($job_seeker_id), 0, '.', ',');
+   			$no_of_awarded_requests = number_format($this->users_model->get_no_of_awarded_requests($job_seeker_id), 0, '.', ',');
+   			$no_od_completed_jobs = number_format($this->users_model->get_no_of_completed_jobs($job_seeker_id), 0, '.', ',');
+   			$no_of_pending_jobs = number_format($this->users_model->get_no_of_pending_jobs($job_seeker_id), 0, '.', ',');
+   			?>
 			       
             <table class="table table-striped table-hover table-condensed">
             	<thead>
                 	<tr>
-                    	<th>Type</th>
-                        <th>Visits</th>
+                    	<th>Item Title</th>
+                        <th>Counts</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>Staff</th>
-                        <td><?php echo '1'?></td>
+                        <th>No. of Requests</th>
+                        <td><?php echo $no_of_requests?></td>
                     </tr>
                     <tr>
-                        <th>Students</th>
-                        <td><?php echo '1';?></td>
+                        <th>No. of Request Awarded</th>
+                        <td><?php echo $no_of_awarded_requests;?></td>
                     </tr>
                     <tr>
-                        <th>Insurance</th>
-                        <td><?php echo '1';?></td>
+                        <th>No. of Completed Jobs</th>
+                        <td><?php echo $no_od_completed_jobs;?></td>
                     </tr>
                     <tr>
-                        <th>Other</th>
-                        <td><?php echo '1';?></td>
+                        <th>No. of Pending Jobs</th>
+                        <td><?php echo $no_of_pending_jobs;?></td>
                     </tr>
                 </tbody>
             </table>
             <!-- Text -->
             <div class="datas-text">
-            	Total Visits <span class="bold"><?php echo number_format(4000, 0);?></span>
+            	<!-- Total Visits <span class="bold"><?php echo number_format(4000, 0);?></span> -->
             </div>
             
             <div class="clearfix"></div>

@@ -209,6 +209,57 @@ class Provider extends admin {
 		
 		$this->load->view('templates/general_admin', $data);
 	}
+	public function unassign_seeker_task($job_id,$job_seeker_id)
+	{
+
+		// check if the job has been assigned to the seeker
+
+		if($this->provider_model->check_seekers_assignment($job_id,$job_seeker_id))
+		{
+			// now unassign the job from the seekers
+
+			if($this->provider_model->unassign_seeker_task($job_id,$job_seeker_id))
+			{
+				$this->session->set_userdata('success_message', 'You have successfully unassigned the job from the job seeker');
+			}
+			else
+			{
+				$this->session->set_userdata('error_message', 'The Job seeker be unassigned from the job seeker');
+			}
+
+		}
+		else
+		{
+
+			$this->session->set_userdata('error_message', 'The Job seeker be unassigned from the job seeker');
+		}
+		redirect('view-job/'.$job_id);
+		
+
+	}
+
+	public function assign_seeker_task($job_id,$job_seeker_id)
+	{
+		// check if the job has been assigned to another seeker
+
+		if($this->provider_model->check_seekers_assignment($job_id,$job_seeker_id))
+		{
+
+		}
+		else
+		{
+			// assign the job to the job seeker
+			if($this->provider_model->assign_seeker_task($job_id,$job_seeker_id))
+			{
+				$this->session->set_userdata('success_message', 'You have successfully assigned the job from the job seeker');
+			}
+			else
+			{
+				$this->session->set_userdata('error_message', 'The Job seeker be assigned from the job seeker');
+			}
+		}
+
+	}
 
     
 	

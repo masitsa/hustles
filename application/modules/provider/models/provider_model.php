@@ -63,6 +63,7 @@ class Provider_model extends CI_Model
 		
 		return $query;
 	}
+
 	
 	public function get_all_countries()
 	{
@@ -395,6 +396,61 @@ class Provider_model extends CI_Model
 		$web_name = str_replace(" ", "-", strtolower($field_name));
 		
 		return $web_name;
+	}
+
+	/*
+	*	Retrieve all front end providers
+	*
+	*/
+	public function check_seekers_assignment($job_id,$job_seeker_id)
+	{
+		$this->db->from('job_seeker_request');
+		$this->db->select('*');
+		$this->db->where('job_seeker_request_status = 1 AND job_seeker_id = "'.$job_seeker_id.'" AND job_id = '.$job_id);
+		$query = $this->db->get();
+		
+		if($query->num_rows() == 1)
+		{
+			foreach ($query->result() as $value) {
+				# code...
+
+				$dispatch_status = $value->dispatch_status;
+				$completed = $value->completed;
+
+				if($completed == 0 || $dispatch_status == 0)
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/*
+	*	Retrieve all front end providers
+	*
+	*/
+	public function unassign_seeker_task($job_id,$job_seeker_id)
+	{
+		$data = array(
+				'job_seeker_request_status' => 0
+			);
+		$this->db->where('job_id = '.$job_id.' AND job_seeker_id ='.$job_seeker_id);
+		
+		if($this->db->update('job_seeker_request', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
 	}
 }
 ?>

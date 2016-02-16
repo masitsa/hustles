@@ -393,5 +393,179 @@ class Users_model extends CI_Model
 		
 		return $web_name;
 	}
+	/*
+	*	Add a new job_seeker to the database
+	*
+	*/
+	public function add_new_job_seeker($image_name, $thumb_name)
+	{
+		$data = array(
+				'job_seeker_first_name'=>ucwords(strtolower($this->input->post('job_seeker_first_name'))),
+				'job_seeker_last_name'=>ucwords(strtolower($this->input->post('job_seeker_other_names'))),
+				'job_seeker_email'=>$this->input->post('job_seeker_email'),
+				'job_seeker_password'=>md5(123456),
+				'job_seeker_phone'=>$this->input->post('job_seeker_phone'),
+				'job_seeker_address'=>$this->input->post('job_seeker_address'),
+				'job_seeker_post_code'=>$this->input->post('job_seeker_post_code'),
+				'job_seeker_city'=>$this->input->post('job_seeker_city'),
+				'job_seeker_next_of_kin_first_name'=>$this->input->post('job_seeker_next_of_kin_first_name'),
+				'job_seeker_next_of_kin_last_name'=>$this->input->post('job_seeker_next_of_kin_last_name'),
+				'job_seeker_next_of_kin_phone'=>$this->input->post('job_seeker_next_of_kin_phone'),
+				'job_seeker_next_of_kin_email'=>$this->input->post('job_seeker_next_of_kin_email'),
+				'job_seeker_national_id'=>$this->input->post('job_seeker_national_id'),
+				'job_seeker_next_of_kin_identity'=>$this->input->post('job_seeker_next_of_kin_identity'),
+				'created'=>date('Y-m-d H:i:s'),
+				'job_seeker_type'=>2,
+				'thumb_name'=>$thumb_name,
+				'image_name'=>$image_name,
+				'job_seeker_status'=>$this->input->post('job_seeker_status')
+			);
+			
+		if($this->db->insert('job_seeker', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+
+	public function get_no_of_requests($job_seeker_id)
+	{
+
+		$this->db->select('COUNT(job_seeker_request_id) AS total_requests');
+		$this->db->where('job_seeker_id  ='.$job_seeker_id);
+		$this->db->from('job_seeker_request');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_requests;
+	}
+
+	public function get_no_of_awarded_requests($job_seeker_id)
+	{
+
+		$this->db->select('COUNT(job_seeker_request_id) AS total_requests');
+		$this->db->where('job_seeker_request_status = 1 AND job_seeker_id  ='.$job_seeker_id);
+		$this->db->from('job_seeker_request');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_requests;
+	}
+	
+	public function get_no_of_completed_jobs($job_seeker_id)
+	{
+
+		$this->db->select('COUNT(job_seeker_request_id) AS total_requests');
+		$this->db->where('job_seeker_request_status = 1 AND completed = 1 AND job_seeker_id  ='.$job_seeker_id);
+		$this->db->from('job_seeker_request');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_requests;
+	}
+	public function get_no_of_pending_jobs($job_seeker_id)
+	{
+
+		$this->db->select('COUNT(job_seeker_request_id) AS total_requests');
+		$this->db->where('job_seeker_request_status = 1 AND completed = 0 AND job_seeker_id  ='.$job_seeker_id);
+		$this->db->from('job_seeker_request');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		return $result->total_requests;
+	}
+
+
+	/*
+	*	Activate a deactivated user
+	*	@param int $user_id
+	*
+	*/
+	public function activate_seeker($job_seeker_id)
+	{
+		$data = array(
+				'job_seeker_status' => 1
+			);
+		$this->db->where('job_seeker_id', $job_seeker_id);
+		
+		if($this->db->update('job_seeker', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	/*
+	*	Deactivate an job_seeker_status user
+	*	@param int $job_seeker_id
+	*
+	*/
+	public function deactivate_seeker($job_seeker_id)
+	{
+		$data = array(
+				'job_seeker_status' => 0
+			);
+		$this->db->where('job_seeker_id', $job_seeker_id);
+		
+		if($this->db->update('job_seeker', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+
+	/*
+	*	Activate a deactivated user
+	*	@param int $user_id
+	*
+	*/
+	public function activate_provider($member_id)
+	{
+		$data = array(
+				'member_status' => 1
+			);
+		$this->db->where('member_id', $member_id);
+		
+		if($this->db->update('member', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+	
+	/*
+	*	Deactivate an member_status user
+	*	@param int $member_id
+	*
+	*/
+	public function deactivate_provider($member_id)
+	{
+		$data = array(
+				'member_status' => 0
+			);
+		$this->db->where('member_id', $member_id);
+		
+		if($this->db->update('member', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
 }
 ?>
