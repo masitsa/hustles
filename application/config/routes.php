@@ -249,3 +249,8 @@ $route['contact'] = 'site/contact';
 $route['about'] = 'site/about';
 $route['about/(:any)'] = 'site/about/$1';
 
+/*
+*	Advertisers Routes
+*/
+$route['all-companies'] = 'admin/companies';
+$route['all-advertisments'] = 'admin/advertisments';

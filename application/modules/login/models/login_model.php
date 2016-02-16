@@ -63,11 +63,12 @@ class Login_model extends CI_Model
 	*/
 	public function validate_provider()
 	{
+
 		//select the user by email from the database
 		$this->db->select('*');
 		$this->db->where(array('member_email' => $this->input->post('email'), 'member_status' => 1, 'member_password' => md5($this->input->post('member_password'))));
 		$query = $this->db->get('member');
-		
+		// var_dump($this->db->where(array('member_email' => $this->input->post('email'), 'member_status' => 1, 'member_password' => md5($this->input->post('member_password')))));die();
 		//if users exists
 		if ($query->num_rows() > 0)
 		{

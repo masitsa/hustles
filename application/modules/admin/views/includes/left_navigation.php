@@ -15,6 +15,7 @@
                 <li><a href="<?php echo base_url()."all-jobs";?>"><i class="icon-list"></i> All Jobs</a></li>
                 <li><a href="<?php echo base_url()."all-providers";?>"><i class="icon-list"></i> Job Providers</a></li>
                 <li><a href="<?php echo base_url()."all-seekers";?>"><i class="icon-list"></i> Job Seekers</a></li>
+
                
                  <li class="has_submenu">
                     <a href="#">
@@ -24,6 +25,15 @@
                         <li><a href="<?php echo base_url()."all-jobs";?>">Administrators</a></li>
                         <li><a href="<?php echo base_url()."all-providers";?>">Job Providers</a></li>
                         <li><a href="<?php echo base_url()."all-seekers";?>">Job Seekers</a></li>
+                    </ul>
+                </li>
+                 <li class="has_submenu">
+                   <a href="#">
+                        <i class="icon-th"></i> Advertisers
+                    </a>
+                     <ul>
+                        <li><a href="<?php echo base_url()."all-companies";?>">Companies</a></li>
+                        <li><a href="<?php echo base_url()."all-advertisments";?>">Advertisments</a></li>
                     </ul>
                 </li>
 				

@@ -84,10 +84,6 @@ if ($jobs->num_rows() > 0)
                     <div class="find-job-tabs responsive-tabs">
                        <div id="map"></div>
                     </div> <!-- end .find-job-tabs -->
-
-
-
-                    
                   
                 </div> <!-- end .page-content -->
 
@@ -180,6 +176,28 @@ if ($jobs->num_rows() > 0)
                         </div>
                     </aside>
                 </div> <!-- end .page-sidebar -->
+            </div>
+            <div class="row">
+                <div class="success-stories-section">
+                    <div class="container">
+                        <h5 class="mt10">Advertisments</h5>
+
+                        <div>
+                            <div class="row">
+                                <div class="col-md-4" style="padding:10px;">
+                                    <iframe src="http://www.youtube.com/embed/A6XUVjK9W4o?rel=0&amp;controls=2&amp;showinfo=0" frameborder="0" ></iframe>
+                                </div>
+                                 <div class="col-md-4" style="padding:10px;">
+                                    <iframe src="http://www.youtube.com/embed/A6XUVjK9W4o?rel=0&amp;controls=2&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                 <div class="col-md-4" style="padding:10px;">
+                                    <iframe src="http://www.youtube.com/embed/A6XUVjK9W4o?rel=0&amp;controls=2&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div> <!-- end .container -->
 

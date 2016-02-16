@@ -107,7 +107,7 @@
                 <div class="css-table logo">
                     <div class="css-table-cell">
                         <a href="index.html">
-                            <img src="img/header-logo.png" alt="">
+                            <img src="<?php echo site_url();?>assets/logo/janta.jpg" alt="" width="80">
                         </a> <!-- end .logo -->
                     </div>
                 </div>
