@@ -106,7 +106,10 @@ $route['deactivate-job-provider/(:num)'] = 'admin/users/deactivate_provider/$1';
 $route['reset-provider-password/(:num)'] = 'admin/users/reset_password/$1';
 $route['provider-profile/(:num)'] = 'admin/providers/provider_profile/$1';
 $route['un-assign-task/(:num)/(:num)'] = 'provider/unassign_seeker_task/$1/$2';
+$route['assign-task/(:num)/(:num)'] = 'provider/assign_seeker_task/$1/$2';
+$route['dispatch-job/(:num)/(:num)'] = 'provider/record_dispatch_time/$1/$2';
 $route['all-jobs'] = 'admin/all_jobs';
+$route['mark-complete-job/(:num)'] = 'provider/mark_job_as_complete/$1';
 
 
 /*
@@ -238,4 +241,11 @@ $route['complete-job/(:num)'] = 'job_seeker/complete_job/$1';
 *	Site Routes
 */
 $route['jobs'] = 'site/jobs';
+$route['my-account'] = 'job_seeker/account_details';
+$route['change-password'] = 'job_seeker/change_password';
+$route['logout-seeker'] = 'job_seeker/logout_seeker';
+$route['book-job/(:num)'] = 'job_seeker/book_job/$1';
+$route['contact'] = 'site/contact';
+$route['about'] = 'site/about';
+$route['about/(:any)'] = 'site/about/$1';
 

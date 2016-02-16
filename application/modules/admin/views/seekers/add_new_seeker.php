@@ -18,31 +18,31 @@
             }
             ?>
             
-            <?php echo form_open($this->uri->uri_string(), array("class" => "form-horizontal", "role" => "form"));?>
+           <?php echo form_open_multipart($this->uri->uri_string(), array("class" => "form-horizontal", "role" => "form"));?>
             <div class="row">
             	<div class="col-md-12">
             		<div class="col-md-6">
-            			 <div class="form-group">
-			                <label class="col-lg-3 control-label">Post Image</label>
-			                <div class="col-lg-9">
-			                    
-			                    <div class="row">
-			                    
-			                    	<div class="col-md-12 col-sm-12 col-xs-12">
-			                        	<div class="fileinput fileinput-new" data-provides="fileinput">
-			                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width:200px; height:200px;">
-			                                    <img src="http://placehold.it/200x200">
-			                                </div>
-			                                <div>
-			                                    <span class="btn btn-file btn-info"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="post_image"></span>
-			                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
-			                                </div>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    
-			                </div>
-			            </div>
+            			  <div class="form-group">
+	                        <label class="col-lg-4 control-label">Post Image</label>
+	                        <div class="col-lg-8">
+	                            
+	                            <div class="row">
+	                            
+	                            	<div class="col-md-8 col-sm-8 col-xs-8">
+	                                	<div class="fileinput fileinput-new" data-provides="fileinput">
+	                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width:150px; height:150px;">
+	                                            <img src="http://placehold.it/150x150">
+	                                        </div>
+	                                        <div>
+	                                            <span class="btn btn-file btn-info"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="post_image"></span>
+	                                            <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            
+	                        </div>
+	                    </div>
             			
 			           
 			            

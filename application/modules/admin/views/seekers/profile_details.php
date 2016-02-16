@@ -12,6 +12,8 @@ foreach ($seekers_array as $seekers_row)
 		$job_seeker_status =  $seekers_row->job_seeker_status;
 		$job_seeker_id =  $seekers_row->job_seeker_id;
 
+		$image = $seekers_row->image_name;
+
 	
 }
 
@@ -36,21 +38,27 @@ foreach ($seekers_array as $seekers_row)
    	<div class="row">
    		<div class="col-sm-8">
        		<div class="col-sm-4">
-       			 <div class="form-group">
-		                <div class="col-lg-4">
-		                    <div class="row">
-		                    	<div class="col-md-4 col-sm-4 col-xs-4">
-		                        	<div class="fileinput fileinput-new" data-provides="fileinput">
-		                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width:200px; height:200px;">
-		                                    <img src="">
-		                                </div>
-		                                
-		                            </div>
-		                        </div>
-		                    </div>
-		                    
-		                </div>
-		            </div>
+       			<div class="form-group">
+	                <input type="hidden" value="<?php echo $image;?>" name="current_image"/>
+	                <div class="col-lg-4">
+	                    
+	                    <div class="row">
+	                    
+	                    	<div class="col-md-4 col-sm-4 col-xs-4">
+	                        	<div class="fileinput fileinput-new" data-provides="fileinput">
+	                                <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width:200px; height:200px;">
+	                                    <img src="<?php echo base_url()."assets/images/seekers/".$image;?>">
+	                                </div>
+	                                <div>
+	                                    <span class="btn btn-file btn-info"><span class="fileinput-new">Select Image</span><span class="fileinput-exists">Change</span><input type="file" name="post_image"></span>
+	                                    <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    
+	                </div>
+	            </div>
 		      </div>
 		      <div class="col-sm-6">
 		      	<div class="row">

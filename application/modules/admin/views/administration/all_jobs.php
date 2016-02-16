@@ -56,14 +56,22 @@
 						//create deactivated status display
 						if($job_status == 0)
 						{
-							$status = '<span class="label label-info">Not Assigned</span>';
+							$status = '<span class="label label-info">Not activated</span>';
 							//$button = '<a class="btn btn-sm btn-info" href="'.site_url().'administration/activate-job/'.$job_id.'/'.$job_id.'" onclick="return confirm(\'Do you want to activate '.$job_title.'?\');">Activate</a>';
 						}
 						//create activated status display
 						else if($job_status == 1)
 						{
-							$status = '<span class="label label-success">Assigned</span>';
+							$status = '<span class="label label-success">Activated</span>';
 							//$button = '<a class="btn btn-sm btn-default" href="'.site_url().'administration/deactivate-job/'.$job_id.'/'.$job_id.'" onclick="return confirm(\'Do you want to deactivate '.$job_title.'?\');">Deactivate</a>';
+						}
+						else if($job_status == 2)
+						{
+							$status = '<span class="label label-success">Completed</span>';
+						}
+						else
+						{
+							$status = '<span class="label label-info">Canceled</span>';
 						}
 						if($completed == 1)
 						{

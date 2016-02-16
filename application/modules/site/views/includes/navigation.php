@@ -63,6 +63,18 @@
                 <!-- Bookmarks -->
 
                 <!-- Header Register -->
+                <?php
+                if($this->session->userdata('job_seeker_login_status'))
+                {
+                    ?>
+                     <a href="<?php echo site_url().'logout-seeker';?>" class="btn btn-link pull-right">Log out </a>
+                    <a href="<?php echo site_url().'job-seeker-dashboard';?>" class="btn btn-link pull-right">Go to Dashboard</a>
+
+                    <?php
+                }
+                else
+                {
+                ?>
                 <div class="header-register">
                     <a href="<?php echo base_url();?>login-provider" class="btn btn-link">Job Seeker Login</a>
                     <div>
@@ -75,6 +87,9 @@
                             <?php echo form_close();?>
                     </div>
                 </div> <!-- end .header-register -->
+                <?php
+                }
+                ?>
 
                 <!-- Header Login -->
                 <div class="header-login">

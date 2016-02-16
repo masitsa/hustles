@@ -1,7 +1,7 @@
 
 <?php
 // get the details for the delivery person
-$delivery_person_query = $this->jobs_model->get_job_assigned_person($job_id);
+$delivery_person_query = $this->jobs_model->get_job_requested_person($job_id,$job_seeker_id);
 
 if ($delivery_person_query->num_rows() > 0)
 {

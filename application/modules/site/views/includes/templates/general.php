@@ -2,7 +2,7 @@
 <html lang="en">
  <?php echo $this->load->view('site/includes/header', '', TRUE);?>
 
-<body>
+<body onload="initMap()" style="margin:0px; border:0px; padding:0px;">
 <div id="main-wrapper">
 
    <?php echo $this->load->view('site/includes/navigation', '', TRUE);?>

@@ -3,6 +3,7 @@
 require_once "./application/modules/admin/controllers/admin.php";
 
 class Users extends admin {
+	var $posts_path;
 	
 	function __construct()
 	{
@@ -296,7 +297,7 @@ class Users extends admin {
 	public function add_seeker() 
 	{
 		//form validation rules
-		$this->form_validation->set_rules('job_seeker_email', 'Email', 'required|xss_clean|is_unique[job_seeker.job_seeker_email]|valid_email');
+		// $this->form_validation->set_rules('job_seeker_email', 'Email', 'required|xss_clean|is_unique[job_seeker.job_seeker_email]|valid_email');
 		$this->form_validation->set_rules('job_seeker_other_names', 'Other Names', 'required|xss_clean');
 		$this->form_validation->set_rules('job_seeker_first_name', 'First Name', 'required|xss_clean');
 		$this->form_validation->set_rules('job_seeker_phone', 'Phone', 'xss_clean');
@@ -314,7 +315,7 @@ class Users extends admin {
 		//if form has been submitted
 		if ($this->form_validation->run())
 		{
-			//upload product's gallery images
+			// upload product's gallery images
 			$resize['width'] = 600;
 			$resize['height'] = 800;
 			
@@ -530,5 +531,6 @@ class Users extends admin {
 		
 		redirect('all-providers');
 	}
+	
 }
 ?>

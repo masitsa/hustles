@@ -66,7 +66,7 @@ class Provider extends admin {
 		
 		else
 		{
-			$data['content'] = ' There are no jobs created by you';
+			$data['content'] = ' <a href="'.base_url().'post-job" class="btn btn-sm btn-info pull-right" >Add new Job</a>  There are no jobs created by you';
 		}
 		$data['title'] = 'My Jobs';
 		
@@ -121,15 +121,16 @@ class Provider extends admin {
 			$v_data['job_applicants'] = $query;
 			$v_data['job_id'] = $job_id;
 			$v_data['page'] = $page;
-			$data['content'] = $this->load->view('job_detail', $v_data, true);
+			
 		}
 		
 		else
 		{
-
+			$v_data['job_applicants'] = $query;
+			$v_data['job_id'] = $job_id;
 			$data['content'] = '<a href="'.base_url().'my-jobs" class="btn btn-sm btn-info pull-right" >Go back to my Jobs</a> <br>There are no administrators';
 		}
-
+		$data['content'] = $this->load->view('job_detail', $v_data, true);
 		$data['title'] = 'Job detail and other information';
 		$this->load->view('templates/general_admin', $data);
 	}
@@ -140,7 +141,10 @@ class Provider extends admin {
 		$this->form_validation->set_rules('job_start_location', 'Start location', 'required|xss_clean');
 		$this->form_validation->set_rules('contact_person_name', 'Contact Person Name', 'required|xss_clean');
 		$this->form_validation->set_rules('contact_person_phone', 'Contact Person Phone', 'required|xss_clean');
-		$this->form_validation->set_rules('contact_person_email', 'Contact Person Email', 'required|xss_clean');
+		$this->form_validation->set_rules('pick_up_location_detail', 'Pick up location', 'required|xss_clean');
+		$this->form_validation->set_rules('delivery_location_detail', 'Delivery Location Coordinates', 'required|xss_clean');
+		$this->form_validation->set_rules('location', 'Pick up coordinates', 'required|xss_clean');
+		$this->form_validation->set_rules('location_destination', 'Delivery coordinates', 'required|xss_clean');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -242,13 +246,9 @@ class Provider extends admin {
 	{
 		// check if the job has been assigned to another seeker
 
-		if($this->provider_model->check_seekers_assignment($job_id,$job_seeker_id))
+		if($this->provider_model->check_job_assigned($job_id))
 		{
-
-		}
-		else
-		{
-			// assign the job to the job seeker
+				// assign the job to the job seeker
 			if($this->provider_model->assign_seeker_task($job_id,$job_seeker_id))
 			{
 				$this->session->set_userdata('success_message', 'You have successfully assigned the job from the job seeker');
@@ -257,7 +257,38 @@ class Provider extends admin {
 			{
 				$this->session->set_userdata('error_message', 'The Job seeker be assigned from the job seeker');
 			}
+			
 		}
+		else
+		{
+			$this->session->set_userdata('error_message', 'The Job seeker be unassigned from the job seeker');
+		}
+		redirect('view-job/'.$job_id);
+	}
+
+	public function record_dispatch_time($job_id,$job_seeker_request_id)
+	{
+		if($this->provider_model->record_dispatch_time($job_seeker_request_id))
+		{
+			$this->session->set_userdata('success_message', 'Dispatch time recorded successfully');
+		}
+		else
+		{
+			$this->session->set_userdata('error_message', 'Dispatch time was not recorded successfully');	
+		}
+		redirect('view-job/'.$job_id);
+	}
+	public function mark_job_as_complete($job_id)
+	{
+		if($this->provider_model->mark_job_as_complete($job_id))
+		{
+			$this->session->set_userdata('success_message', 'The job has been successfully completed');
+		}
+		else
+		{
+			$this->session->set_userdata('error_message', 'The job has not been checked out');	
+		}
+		redirect('my-jobs');
 
 	}
 

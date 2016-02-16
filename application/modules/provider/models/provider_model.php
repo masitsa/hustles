@@ -452,5 +452,218 @@ class Provider_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function check_job_assigned($job_id)
+	{
+		$this->db->from('job_seeker_request');
+		$this->db->select('*');
+		$this->db->where('job_seeker_request_status = 1 AND job_id = '.$job_id);
+		$query = $this->db->get();
+		
+		if($query->num_rows() > 0)
+		{
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+
+	/*
+	*	Retrieve all front end providers
+	*
+	*/
+	public function assign_seeker_task($job_id,$job_seeker_id)
+	{
+		$data = array(
+				'job_seeker_request_status' => 1,
+				'assigned_by' => $this->session->userdata('user_id'),
+				'assigned' => date("Y-m-d H:i:s")
+			);
+		$this->db->where('job_id = '.$job_id.' AND job_seeker_id ='.$job_seeker_id);
+		
+		if($this->db->update('job_seeker_request', $data))
+		{
+			$query = $this->get_job_details($job_id);
+			if($query->num_rows()> 0)
+			{
+
+				foreach ($query->result() as $key) {
+					# code...
+					
+					$job_seeker_first_name = $key->job_seeker_first_name;
+					$job_seeker_last_name = $key->job_seeker_last_name;
+					$job_seeker_phone = $key->job_seeker_phone;
+					$job_title = $key->job_title;
+					$contact_person_name = $key->contact_person_name;
+					$contact_person_phone = $key->contact_person_phone;
+					$date_completed = $key->date_completed;
+				}
+				// send message to contact person
+				
+				// send message to delivery
+				$delivery_message = "Hello $job_seeker_first_name, You have been assigned Job JOB0023 to deliver to $contact_person_name, Phone number $contact_person_phone";
+
+				$this->sms($job_seeker_phone,$delivery_message);
+
+				$contact_message = "Hello $contact_person_name,  Job JOB0023 is to be delivered to you by $job_seeker_first_name, Phone $job_seeker_phone from Martin";
+
+				$this->sms($contact_person_phone,$delivery_message);
+			}
+			else
+			{
+
+			}
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+				
+	}
+	public function record_dispatch_time($job_seeker_request_id)
+	{
+
+
+		$data = array(
+				'dispatch_status' => 1,
+				'dispatch_time' => date("Y-m-d H:i:s")
+			);
+		$this->db->where('job_seeker_request_id = '.$job_seeker_request_id);
+		
+		if($this->db->update('job_seeker_request', $data))
+		{
+			$query = $this->get_job_details($job_id);
+
+			if($query->num_rows()> 0)
+			{
+				foreach ($query->result() as $key) {
+					# code...
+					$job_seeker_first_name = $key->job_seeker_first_name;
+					$job_seeker_last_name = $key->job_seeker_last_name;
+					$job_seeker_phone = $key->job_seeker_phone;
+					$job_title = $key->job_title;
+					$contact_person_name = $key->contact_person_name;
+					$contact_person_phone = $key->contact_person_phone;
+					$date_completed = $key->date_completed;
+				}
+				// send message to contact person
+
+				// send message to delivery
+				$delivery_message = "Hello $job_seeker_first_name, delivery for job no.JOB0023 has been initiated $date_completed";
+
+				$this->sms($job_seeker_phone,$delivery_message);
+			}
+			else
+			{
+
+			}		
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+		
+	}
+	public function mark_job_as_complete($job_id)
+	{
+		$data = array(
+				'completed' => 1,
+				'job_seeker_request_status' => 2,
+				'date_completed' => date("Y-m-d H:i:s")
+			);
+		$this->db->where('job_seeker_request_status = 1 AND job_id = '.$job_id);
+		
+		if($this->db->update('job_seeker_request', $data))
+		{
+			$data = array(
+				'completed' => 1,
+				'job_status' => 2
+			);
+			$this->db->where('job_id = '.$job_id);
+			
+			if($this->db->update('jobs', $data))
+			{
+				$query = $this->get_job_details($job_id);
+
+				if($query->num_rows()> 0)
+				{
+					foreach ($query->result() as $key) {
+						# code...
+						$job_seeker_first_name = $key->job_seeker_first_name;
+						$job_seeker_last_name = $key->job_seeker_last_name;
+						$job_seeker_phone = $key->job_seeker_phone;
+						$job_title = $key->job_title;
+						$contact_person_name = $key->contact_person_name;
+						$contact_person_phone = $key->contact_person_phone;
+						$date_completed = $key->date_completed;
+					}
+					// send message to contact person
+
+					// send message to delivery
+					$delivery_message = "Hello $job_seeker_first_name, delivery for JOB JOB0023 has been markered as completed on $date_completed";
+
+					$this->sms($job_seeker_phone,$delivery_message);
+				}
+				else
+				{
+
+				}		
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
+		}
+		else{
+			return FALSE;
+		}
+
+		
+
+		
+	}
+	public function get_job_details($job_id)
+	{
+		$this->db->from('jobs,job_seeker_request,job_seeker');
+		$this->db->select('*');
+		$this->db->where('jobs.job_id = job_seeker_request.job_id AND job_seeker_request.job_seeker_request_status = 1 AND job_seeker.job_seeker_id = job_seeker_request.job_seeker_id AND jobs.job_id = '.$job_id);
+		$query = $this->db->get();
+
+		return $query;
+
+	}
+	public function sms($phone,$message)
+	{
+        // This will override any configuration parameters set on the config file
+		// max of 160 characters
+		// to get a unique name make payment of 8700 to Africastalking/SMSLeopard
+		// unique name should have a maximum of 11 characters
+		$phone_number = '+'.$phone;
+		// var_dump($phone_number) or die();
+        $params = array('username' => 'alviem', 'apiKey' => '1f61510514421213f9566191a15caa94f3d930305c99dae2624dfb06ef54b703');  
+        $this->load->library('AfricasTalkingGateway', $params);
+		// var_dump($params)or die();
+        // Send the message
+		try 
+		{
+        	$results = $this->africastalkinggateway->sendMessage($phone_number, $message);
+			
+			//var_dump($results);die();
+			foreach($results as $result) {
+				// status is either "Success" or "error message"
+				// echo " Number: " .$result->number;
+				// echo " Status: " .$result->status;
+				// echo " MessageId: " .$result->messageId;
+				// echo " Cost: "   .$result->cost."\n";
+			}
+		}
+		
+		catch(AfricasTalkingGatewayException $e)
+		{
+			// echo "Encountered an error while sending: ".$e->getMessage();
+		}
+    }
 }
 ?>

@@ -497,11 +497,40 @@ class Users_model extends CI_Model
 		
 		if($this->db->update('job_seeker', $data))
 		{
+			$query = $this->seeker_details($job_seeker_id);
+
+			if($query->num_rows() > 0)
+			{
+				foreach ($query->result() as $key) {
+					# code...
+					$job_seeker_first_name = $key->job_seeker_first_name;
+					$job_seeker_phone = $key->job_seeker_phone;
+					$job_seeker_email = $key->job_seeker_email;
+				}
+				$message = "Hello $job_seeker_first_name, You account has been successfully activated. Your login credentials are username: $job_seeker_email, password: 123456";
+
+				$this->sms($job_seeker_phone,$message);
+			}
+			else
+			{
+
+			}
 			return TRUE;
 		}
 		else{
 			return FALSE;
 		}
+
+		
+	}
+	public function seeker_details($job_seeker_id)
+	{
+		$this->db->from('job_seeker');
+		$this->db->select('*');
+		$this->db->where('job_seeker_id = '.$job_seeker_id);
+		$query = $this->db->get();
+		return $query;
+
 	}
 	
 	/*
@@ -567,5 +596,36 @@ class Users_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function sms($phone,$message)
+	{
+        // This will override any configuration parameters set on the config file
+		// max of 160 characters
+		// to get a unique name make payment of 8700 to Africastalking/SMSLeopard
+		// unique name should have a maximum of 11 characters
+		$phone_number = '+'.$phone;
+		// var_dump($phone_number) or die();
+        $params = array('username' => 'alviem', 'apiKey' => '1f61510514421213f9566191a15caa94f3d930305c99dae2624dfb06ef54b703');  
+        $this->load->library('AfricasTalkingGateway', $params);
+		// var_dump($params)or die();
+        // Send the message
+		try 
+		{
+        	$results = $this->africastalkinggateway->sendMessage($phone_number, $message);
+			
+			//var_dump($results);die();
+			foreach($results as $result) {
+				// status is either "Success" or "error message"
+				// echo " Number: " .$result->number;
+				// echo " Status: " .$result->status;
+				// echo " MessageId: " .$result->messageId;
+				// echo " Cost: "   .$result->cost."\n";
+			}
+		}
+		
+		catch(AfricasTalkingGatewayException $e)
+		{
+			// echo "Encountered an error while sending: ".$e->getMessage();
+		}
+    }
 }
 ?>

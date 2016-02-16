@@ -104,5 +104,6 @@ class Admin extends admin_auth {
 		$this->load->view('templates/general_admin', $data);
 	
 	}
+	
 }
 ?>

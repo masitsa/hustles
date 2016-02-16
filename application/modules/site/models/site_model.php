@@ -33,6 +33,14 @@ class Site_model extends CI_Model
 		
 		return $query;
 	}
+	public function get_all_home_jobs()
+	{
+		$this->db->where('job_category.job_category_id = jobs.job_category_id AND member.member_id = jobs.job_provider_id AND jobs.job_status = 0');
+		$query = $this->db->get('jobs,job_category,member');
+
+		return $query;
+
+	}
 	public function get_services($table, $where, $limit = NULL)
 	{
 		$this->db->where($where);
@@ -214,9 +222,9 @@ class Site_model extends CI_Model
 		$home = '';
 		$about = '';
 		$jobs = '';
-		$register = '';
+		$dashboard = '';
 		$contact = '';
-		$gallery = '';
+		$account = '';
 		
 		if($name == 'home')
 		{
@@ -228,9 +236,9 @@ class Site_model extends CI_Model
 			$about = 'active';
 		}
 		
-		if($name == 'register')
+		if($name == 'job-seeker-dashboard')
 		{
-			$register = 'active';
+			$dashboard = 'active';
 		}
 		
 		if($name == 'jobs')
@@ -238,27 +246,37 @@ class Site_model extends CI_Model
 			$jobs = 'active';
 		}
 		
-		
+		if($name == 'my-account')
+		{
+			$account = 'active';
+		}
+				
 		if($name == 'contact-us')
 		{
 			$contact = 'active';
 		}
 		
 		
-		
+	    if($this->session->userdata('job_seeker_login_status'))
+	    {
+	    	$button = '
+	    				<li class="'.$dashboard.'"><a href="'.base_url().'job-seeker-dashboard">Dashboard</a></li>
+
+	    				<li class="'.$account.'"><a href="'.base_url().'my-account">My Account</a></li>
+	    			  ';
+	    }
+	    else
+	    {	
+	    	$button = '';
+	    }
 		
 		$navigation = 
 		'
                         <li class="'.$home.'"> <a href="'.base_url().'home">Home</a> </li>
                         <li class="'.$jobs.'"><a href="'.base_url().'jobs">Jobs</a></li>
-                        <li class="has-submenu '.$about.'">
-                        	<a href="'.base_url().'about">About Us</a>
-                            <ul>
-                                <li><a href="'.base_url().'partners">Partners</a></li>
-                                <li><a href="'.base_url().'contact">Contact Us</a></li>
-                            </ul>
-                        </li>
-                        <li class="'.$register.'"><a href="'.base_url().'register">Register</a></li>
+                        <li class="'.$about.'"><a href="'.base_url().'about">About Us</a></li>
+                        <li><a  class="'.$contact.'" href="'.base_url().'contact">Contact Us</a></li>
+                        '.$button.'
 			
 		';
 		

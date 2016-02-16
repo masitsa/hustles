@@ -283,6 +283,31 @@ class providers_model extends CI_Model
 		return $query;
 	}
 	
+	public function get_jobs_no($member_id,$status)
+	{
+		if($status == 9)
+		{
+			$where = '';
+		}
+		else
+		{
+			$where = 'AND job_status = '.$status;
+		}
+		$this->db->from('jobs');
+		$this->db->select('COUNT(job_id) AS jobs');
+		$this->db->where( 'job_provider_id = '.$member_id.' '.$where);
+		$query = $this->db->get();
+
+		if($query->num_rows() > 0)
+		{
+			foreach ($query->result() as $key) {
+				# code...
+				$total_jobs = $key->jobs;
+			}
+			return $total_jobs;
+		}
+
+	}
 	/*
 	*	Delete an existing member
 	*	@param int $member_id

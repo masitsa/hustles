@@ -30,6 +30,8 @@
 
 			$member_phone = $job_detail_row->member_phone;
 
+
+
 			
 		}
 
@@ -233,14 +235,15 @@
 				foreach ($delivery_person_query->result() as $delivery_row)
 				{
 
-					$job_seeker_first_name =  $delivery_row->job_seeker_first_name;
+					 $job_seeker_first_name =  $delivery_row->job_seeker_first_name;
 					$job_seeker_last_name =  $delivery_row->job_seeker_last_name;
 					$job_seeker_email =  $delivery_row->job_seeker_email;
 					$job_seeker_phone =  $delivery_row->job_seeker_phone;
-					$identification_card =  $delivery_row->identification_card;
+					$job_seeker_national_id =  $delivery_row->job_seeker_national_id;
 					$job_seeker_membership_no =  $delivery_row->job_seeker_membership_no;
 
 					$job_seeker_status =  $delivery_row->job_seeker_status;
+					$image = $delivery_row->image_name;
 
 				}
 			}
@@ -292,7 +295,7 @@
 					            <div class="form-group">
 					                <label class="col-lg-5 control-label">National Id</label>
 					                <div class="col-lg-6">
-					                	<?php echo $identification_card;?>
+					                	<?php echo $job_seeker_national_id;?>
 					                </div>
 					            </div>
 					        </div>

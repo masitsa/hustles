@@ -64,6 +64,27 @@
 				{
 					$status = '<span class="label label-danger">Canceled</span>';
 				}
+
+
+				if($row->completed == 0)
+				{
+					$buttons = 
+					'
+						<td><a href="'.site_url().'edit-job/'.$job_id.'" class="btn btn-sm btn-success" >Edit Details</a></td>
+						<td><a href="'.site_url().'view-job/'.$job_id.'" class="btn btn-sm btn-info" >View Details</a></td>
+						<td><a href="'.site_url().'mark-complete-job/'.$job_id.'" class="mark_job_as_completed btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to mark  '.$job_title.' as complete?\');">Mark Complate</a></td>
+						<td><a href="'.site_url().'delete-member/'.$job_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$job_title.'?\');">Delete</a></td>
+					
+					';
+
+				}
+				else
+				{
+					$buttons = 
+					'
+						<td colspan="4"><a href="'.site_url().'view-job/'.$job_id.'" class="btn btn-sm btn-info" >View Details</a></td>
+					';
+				}
 				$count++;
 				$result .= 
 				'
@@ -76,10 +97,7 @@
 						<td>'.date('jS M Y H:i a',strtotime($row->created)).'</td>
 						<td>'.date('jS M Y H:i a',strtotime($row->completed)).'</td>
 						<td>'.$status.'</td>
-						<td><a href="'.site_url().'edit-job/'.$job_id.'" class="btn btn-sm btn-success" >Edit Details</a></td>
-						<td><a href="'.site_url().'view-job/'.$job_id.'" class="btn btn-sm btn-info" >View Details</a></td>
-						<td><a href="'.site_url().'view-job/'.$job_id.'" class="btn btn-sm btn-warning" >Mark Complate</a></td>
-						<td><a href="'.site_url().'delete-member/'.$job_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$job_title.'?\');">Delete</a></td>
+						'.$buttons.'
 					</tr> 
 				';
 				$v_data['job_id'] = $job_id;

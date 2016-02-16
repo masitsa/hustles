@@ -27,64 +27,60 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="slideshow_name">Job title</label>
                             <div class="col-md-8">
-                            	<input type="text" class="form-control" name="job_title" placeholder="Enter job title" >
+                            	<input type="text" class="form-control" name="job_title" placeholder="Job title" >
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-4 control-label" for="job_destination">Job Start Location</label>
                             <div class="col-md-8">
-                            	<input type="text" class="form-control" name="job_start_location" placeholder="Enter job title" >
+                            	<input type="text" class="form-control" name="job_start_location" placeholder="Job title" >
                             </div>
                         </div>
                          <div class="form-group">
-                            <label class="col-md-4 control-label" for="job_destination">Job Destination</label>
+                            <label class="col-md-4 control-label" for="job_destination">Pick up Point Detail</label>
                             <div class="col-md-8">
-                            	<input type="text" class="form-control" name="job_destination" placeholder="Enter job title" >
+                            	<input type="text" class="form-control" name="pick_up_location_detail" placeholder="i.e. Building name/ Floor" >
                             </div>
                         </div>
-                         <div class="form-group">
-                            <label class="col-lg-4 control-label">Activate job?</label>
-                            <div class="col-lg-4">
-                                <div class="radio" class="form-control">
-                                    <label>
-                                       
-                                        <input id="optionsRadios1" type="radio" value="1" name="job_status">
-                                        Yes
-                                         <input id="optionsRadios1" type="radio" value="0" name="job_status">
-                                        No
-                                    </label>
-                                </div>
-                                
-                            </div>
-                        </div>
+                         
 					</div>
                 	<div class="col-md-6">
                     	<!-- Activate checkbox -->
                     	<div class="form-group">
                             <label class="col-md-4 control-label" for="contact_person_name">Contact Person Name</label>
                             <div class="col-md-8">
-                            	<input type="text" class="form-control" name="contact_person_name" placeholder="Enter job title" >
+                            	<input type="text" class="form-control" name="contact_person_name" placeholder="Contact Person Name" >
                             </div>
                         </div>
                          <div class="form-group">
                             <label class="col-md-4 control-label" for="contact_person_phone">Contact Person Phone</label>
                             <div class="col-md-8">
-                            	<input type="text" class="form-control" name="contact_person_phone" placeholder="Enter job title" >
+                            	<input type="text" class="form-control" name="contact_person_phone" placeholder="Contact Person Phone" >
                             </div>
                         </div>
                          <div class="form-group">
-                            <label class="col-md-4 control-label" for="contact_person_email">Contact Person Email</label>
+                            <label class="col-md-4 control-label" for="contact_person_phone">Delivery Location Detail</label>
                             <div class="col-md-8">
-                            	<input type="text" class="form-control" name="contact_person_email" placeholder="Enter job title" >
+                                <input type="text" class="form-control" name="delivery_location_detail" placeholder="i.e. Building name/ Floor" >
                             </div>
                         </div>
                        
                 	</div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                            <div id="map_1" style=" height:400px"></div>
+                           <input type="hidden" id="location" name="location" class="span12" >
+                    </div>
+                     <div class="col-md-6">
+                            <div id="map_2" style=" height:400px"></div>
+                           <input type="hidden" id="location_destination" name="location_destination" class="span12" >
+                    </div>
+                </div>
                 
                 <div class="row">
                 	<div class="col-md-12">
-                            <label class="col-md-2 control-label" for="job_description">Job description</label>
+                            <label class="col-md-2 control-label" for="job_description">Other Description</label>
                             <div class="col-md-10">
                             	<textarea class="cleditor" name="job_description"></textarea>
                             </div>

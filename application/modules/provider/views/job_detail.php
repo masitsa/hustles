@@ -82,18 +82,27 @@
 						$job_seeker_request_status =  $job_applicants_row->job_seeker_request_status;
 						$job_seeker_status =  $job_applicants_row->job_seeker_status;
 						$job_seeker_id =  $job_applicants_row->job_seeker_id;
+						$job_seeker_request_id =  $job_applicants_row->job_seeker_request_id;
 
 
 						if($job_seeker_request_status == 1)
 						{
 							$assigned_status =  '<span class="label label-success">Assigned</span>';
 							$button = '<a  class="unassign_job btn btn-sm btn-warning" onclick="return confirm(\'Do you really want to unasign this job from '.$job_seeker_first_name.'?\');" href="'.site_url().'un-assign-task/'.$job_id.'/'.$job_seeker_id.'">Unassign Job</a>';
-							$dispatch_button = '<a href="'.site_url().'disptach-job/'.$job_id.'" class="btn btn-sm btn-info" onclick="return confirm(\'Do you really want to dispatch the deliver sugin '.$job_seeker_first_name.'?\');">Dispatch</a>';
+							if($job_applicants_row->dispatch_status == 1)
+							{
+								$dispatch_button = '<span class="label label-success">Dispatched</span>';
+							}
+							else
+							{
+								$dispatch_button = '<a href="'.site_url().'dispatch-job/'.$job_id.'/'.$job_seeker_request_id.'" class="record_disptach_time btn btn-sm btn-info" onclick="return confirm(\'Do you really want to dispatch the deliver sugin '.$job_seeker_first_name.'?\');">Dispatch</a>';
+	
+							}
 						}
 						else
 						{
 							$assigned_status =  '<span class="label label-danger">Not assigned</span>';
-							$button = '<a href="'.site_url().'assign-task/'.$job_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$job_id.'?\');">Assign Job</a>';
+							$button = '<a href="'.site_url().'assign-task/'.$job_id.'/'.$job_seeker_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to assign job  to '.$job_seeker_first_name.'?\');">Assign Job</a>';
 							$dispatch_button  ='';
 
 						}

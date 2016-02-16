@@ -33,7 +33,7 @@
             <li><a href="<?php echo site_url()."admin-profile/".$this->session->userdata('user_id');?>"><i class="icon-user"></i> Profile</a></li>
             <!--<li><a href="<?php echo site_url()."settings";?>"><i class="icon-cogs"></i> Settings</a></li>-->
             <li class="divider"></li>
-            <li><a href="<?php echo site_url()."logout-admin";?>"><i class="icon-off"></i> Logout</a></li>
+            <li><a href="<?php echo site_url()."logout-provider";?>"><i class="icon-off"></i> Logout</a></li>
         </ul>
     </li>
 </ul>

@@ -39,20 +39,31 @@ class Site extends CI_Controller
 		// $data['slideshow_location'] = $this->slideshow_location;
 		// $data['service_location'] = $this->service_location;
 		$data['home'] =  array('item one' => 1, );
+		$data['jobs'] = $this->site_model->get_all_home_jobs();
 		$v_data['title'] = 'Home';
 		$v_data['content'] = $this->load->view("home", $data, TRUE);
 		
 		$this->load->view("includes/templates/general", $v_data);
 	}
 	
-	public function about()
+	public function about($item = NULL)
 	{
+		if($item == NULL)
+		{
+			$v_data['var'] = 'about';
+			$item = 'about';
+		}
+		else
+		{
+			$v_data['var'] = $item;
+			$item = $v_data['var'];
+		}
 		$data['title'] = 'About us';
 		$v_data['title'] = 'About us';
-		$data['company_details'] = $this->site_model->get_contacts();
-		$v_data['content'] = $this->load->view('about_us/about_us', $data, true);
+
+		$data['content'] = $this->load->view($item, $v_data, true);
 		
-		$this->load->view("about_us/templates/about_us", $v_data);
+		$this->load->view("includes/templates/general", $data);
 	}
 	public function specialists()
 	{

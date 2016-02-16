@@ -1,83 +1,120 @@
+<div id="page-content">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 page-content">
+					<div class="white-container mb0">
+						<div class="title-lines">
+							<h3 class="mt15">Hello, nice to meet you!</h3>
+						</div>
 
-    <section id="about-us">
-        <div class="container">
-			<div class="center wow fadeInDown">
-				<h1>About <?php echo $company_details['company_name'];?></h1>
-				<p class="lead"><?php echo $company_details['about'];?></p>
-			</div>
-			
-			<!-- about us slider -->
-			<div id="about-slider">
-				<div id="carousel-slider" class="carousel slide" data-ride="carousel">
-					<!-- Indicators -->
-				  	<ol class="carousel-indicators visible-xs">
-					    <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
-					    <li data-target="#carousel-slider" data-slide-to="1"></li>
-					    <li data-target="#carousel-slider" data-slide-to="2"></li>
-				  	</ol>
+						<p><strong>2SMALLHUSTLES.COM is a business enterprise that has been established to bring people closer to small job opportunities that come once in a while in order for anyone to economically improve him or herself.</strong></p>
 
-					<div class="carousel-inner">
-						<div class="item active">
-							<img src="http://placehold.it/1160x400/55a4da/ffffff&text=Company image" class="img-responsive" alt=""> 
-					   </div>
-					   <div class="item">
-							<img src="http://placehold.it/1160x400/e67e22/ffffff&text=Company image" class="img-responsive" alt=""> 
-					   </div> 
-					   <div class="item">
-							<img src="http://placehold.it/1160x400/8e44ad/ffffff&text=Company image" class="img-responsive" alt=""> 
-					   </div> 
+						<p>The business seeks to provide the people of Kenya with an opportunity to making small, but yet, much little money as they go on with their day to day errands. This means that the business operates on an open business space where every other person can engage themselves with other jobs that could bring an extra income during their normal day activities..</p>
+
+						<div class="fitvidsjs">
+							<iframe src="http://player.vimeo.com/video/24456787" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+						</div>
+
+						<p>2SMALLHUSTLES.COM is a business that revolves around the use of current technologies to build a community encompassing small job holders and small job seekers in the current growing Kenyan economy</p>
+
+						<h3 class="bottom-line">Our Team</h3>
+
+						<div class="row">
+							<div class="col-sm-6 col-md-4">
+								<div class="our-team-item">
+									<div class="img">
+										<img src="img/content/face-0.png" alt="">
+									</div>
+
+									<h6>John Doe <span>CEO</span></h6>
+								</div>
+							</div>
+
+							<div class="col-sm-6 col-md-4">
+								<div class="our-team-item">
+									<div class="img">
+										<img src="img/content/face-2.png" alt="">
+									</div>
+
+									<h6>John Doe <span>CEO</span></h6>
+								</div>
+							</div>
+
+							<div class="col-sm-6 col-md-4">
+								<div class="our-team-item">
+									<div class="img">
+										<img src="img/content/face-4.png" alt="">
+									</div>
+
+									<h6>John Doe <span>CEO</span></h6>
+								</div>
+							</div>
+
+							<div class="col-sm-6 col-md-4">
+								<div class="our-team-item">
+									<div class="img">
+										<img src="img/content/face-6.png" alt="">
+									</div>
+
+									<h6>John Doe <span>CEO</span></h6>
+								</div>
+							</div>
+
+							<div class="col-sm-6 col-md-4">
+								<div class="our-team-item">
+									<div class="img">
+										<img src="img/content/face-8.png" alt="">
+									</div>
+
+									<h6>John Doe <span>CEO</span></h6>
+								</div>
+							</div>
+
+							<div class="col-sm-6 col-md-4">
+								<div class="our-team-item">
+									<div class="img">
+										<img src="img/content/face-9.png" alt="">
+									</div>
+
+									<h6>John Doe <span>CEO</span></h6>
+								</div>
+							</div>
+						</div>
 					</div>
-					
-					<a class="left carousel-control hidden-xs" href="#carousel-slider" data-slide="prev">
-						<i class="fa fa-angle-left"></i> 
-					</a>
-					
-					<a class=" right carousel-control hidden-xs"href="#carousel-slider" data-slide="next">
-						<i class="fa fa-angle-right"></i> 
-					</a>
-				</div> <!--/#carousel-slider-->
-			</div><!--/#about-slider-->
-			
-			<!-- Our Skill -->
-			<div class="skill-wrap clearfix">
-			
-				<div class="center wow fadeInDown">
-					<h1>Our mission</h1>
-					<p class="lead"><?php echo $company_details['mission'];?></p>
 				</div>
-	
-            </div><!--/.our-skill-->
-			
-			<!-- Our Skill -->
-			<div class="skill-wrap clearfix">
-			
-				<div class="center wow fadeInDown">
-					<h1>Our vision</h1>
-					<p class="lead"><?php echo $company_details['vision'];?></p>
+
+				<div class="col-sm-4 page-sidebar">
+					<aside>
+						<div class="widget sidebar-widget white-container links-widget">
+							<ul>
+
+								<?php
+								$about_link = '';
+								$privacy_link = '';
+								$terms_link ='';
+								if($var == 'about')
+								{
+									$about_link = 'active';
+								}
+
+								if($var == 'privacy')
+								{
+									$privacy_link  = 'active';
+								}
+
+								if($var == 'terms')
+								{
+									$terms_link  = 'active';
+								}
+
+								?>
+								<li class="<?php echo $about_link;?>"><a href="<?php echo base_url();?>about">About Us</a></li>
+								<li class="<?php echo $privacy_link;?>"><a href="<?php echo base_url();?>about/privacy">Privacy Policy</a></li>
+								<li class="<?php echo $terms_link;?>"><a href="<?php echo base_url();?>about/terms">Terms &amp; Conditions</a></li>
+							</ul>
+						</div>
+					</aside>
 				</div>
-	
-            </div><!--/.our-skill-->
-			
-			<!-- Our Skill -->
-			<div class="skill-wrap clearfix col-md-7">
-			
-				<div class="wow fadeInDown">
-					<h1 class="center">Our objectives</h1>
-					<p class="lead"><?php echo $company_details['objectives'];?></p>
-				</div>
-	
-            </div><!--/.our-skill-->
-			
-			<!-- Our Skill -->
-			<div class="skill-wrap clearfix col-md-5">
-			
-				<div class="wow fadeInDown">
-					<h1 class="center">Our core values</h1>
-					<p class="lead"><?php echo $company_details['core_values'];?></p>
-				</div>
-	
-            </div><!--/.our-skill-->
-			
-		</div><!--/.container-->
-    </section><!--/about-us-->
-	
+			</div>
+		</div> <!-- end .container -->
+	</div> <!-- end #page-content -->

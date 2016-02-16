@@ -116,10 +116,97 @@ class Job_seeker_model extends CI_Model
 	*/
 	public function get_jobs($status)
 	{
-		$this->db->where('member.member_id = jobs.job_provider_id AND job_seeker_request.job_id = jobs.job_id AND job_seeker_request_status = '.$status);
+		if($status == 0)
+		{
+			$where = '';
+		}
+		else
+		{
+			$where = 'AND job_seeker_request_status = '.$status;
+		}
+		$this->db->where('member.member_id = jobs.job_provider_id AND job_seeker_request.job_seeker_id = '.$this->session->userdata('job_seeker_id').' AND job_seeker_request.job_id = jobs.job_id '.$where );
 		$this->db->order_by('assigned', 'DESC');
 		$query = $this->db->get('job_seeker_request, jobs, member');
 		
 		return $query;
+	}
+	public function book_job($job_id)
+	{
+		$data = array(
+				'job_seeker_id'=>$this->session->userdata('job_seeker_id'),
+				'job_id'=>$job_id,
+				'job_seeker_request_status'=>0,
+				'date_of_request'=>date('Y-m-d H:i:s')
+			);
+			
+		if($this->db->insert('job_seeker_request', $data))
+		{
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+	public function check_if_booked($job_id)
+	{
+		$this->db->where('job_seeker_id ='.$this->session->userdata('job_seeker_id').' AND job_id ='.$job_id);
+		$query = $this->db->get('job_seeker_request');
+		
+		if($query->num_rows() > 0)
+		{
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+	public function get_my_details()
+	{
+		$this->db->where('job_seeker_id ='.$this->session->userdata('job_seeker_id'));
+		$query = $this->db->get('job_seeker');
+
+		return $query;
+	}
+
+	public function get_total_jobs($status)
+	{
+		if($status == 0)
+		{
+			$where = '';
+		}
+		else
+		{
+			$where = 'AND job_seeker_request_status = '.$status;
+		}
+		$this->db->select('COUNT(jobs.job_id) AS total_jobs');
+		$this->db->where('member.member_id = jobs.job_provider_id AND job_seeker_request.job_seeker_id = '.$this->session->userdata('job_seeker_id').' AND job_seeker_request.job_id = jobs.job_id '.$where );
+
+		$query = $this->db->get('job_seeker_request, jobs, member');
+		
+		foreach ($query->result() as $key ) {
+			# code...
+			$total_jobs = $key->total_jobs;
+		}
+		
+		return $total_jobs;
+	}
+	public function change_password()
+	{
+		
+		$data = array(
+				'job_seeker_password' => md5($this->input->post('new_password'))
+			);
+		$this->db->where('job_seeker_password = "'.md5($this->input->post('current_password')).'" AND job_seeker_id ='.$this->session->userdata('job_seeker_id'));
+		
+		if($this->db->update('job_seeker', $data))
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
 	}
 }

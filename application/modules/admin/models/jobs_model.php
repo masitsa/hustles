@@ -45,13 +45,32 @@ class Jobs_model extends CI_Model
 	*/
 	public function post_job()
 	{
+
+		$start_location = explode(',', $this->input->post('location')); 
+		$destination = explode(',', $this->input->post('location_destination'));
+
+		$start_location_lat = $start_location[0];
+		$start_location_long = $start_location[1];
+
+		$end_location_lat = $destination[0];
+		$end_location_long = $destination[1];
+		
 		$data = array(
 				'job_description'=>$this->input->post('job_description'),
 				'job_title'=>$this->input->post('job_title'),
+				'job_start_location'=>$this->input->post('job_start_location'),
+				'job_destination'=>$this->input->post('job_destination'),
 				'contact_person_name'=>$this->input->post('contact_person_name'),
 				'contact_person_phone'=>$this->input->post('contact_person_phone'),
-				// 'contact_person_description'=>$this->input->post('contact_person_description'),
-				'job_category_id'=>$this->input->post('job_category_id'),
+				'job_provider_id'=>$this->session->userdata('user_id'),
+				'pick_up_location_detail'=>$this->input->post('pick_up_location_detail'),
+				'delivery_location_detail'=>$this->input->post('delivery_location_detail'),
+				'start_location_lat'=>$start_location_lat,
+				'start_location_long'=>$start_location_long,
+				'end_location_lat'=>$end_location_lat,
+				'end_location_long'=>$end_location_long,
+
+				'job_category_id'=>1,
 				'job_status'=>0,
 				'created'=>date('Y-m-d H:i:s')
 			);
@@ -133,7 +152,17 @@ class Jobs_model extends CI_Model
 	{
 		$this->db->from('job_seeker_request,job_seeker');
 		$this->db->select('*');
-		$this->db->where('job_seeker.job_seeker_id = job_seeker_request.job_seeker_id AND job_seeker_request_status = 1 AND job_id = '.$job_id);
+		$this->db->where('job_seeker.job_seeker_id = job_seeker_request.job_seeker_id AND (job_seeker_request_status = 1 OR job_seeker_request_status = 2) AND job_id = '.$job_id);
+		$query = $this->db->get();
+		
+		return $query;
+	}
+
+	public function get_job_requested_person($job_id,$job_seeker_id)
+	{
+		$this->db->from('job_seeker_request,job_seeker');
+		$this->db->select('*');
+		$this->db->where('job_seeker.job_seeker_id = job_seeker_request.job_seeker_id AND job_seeker_request.job_seeker_id = '.$job_seeker_id.' AND job_id = '.$job_id);
 		$query = $this->db->get();
 		
 		return $query;
