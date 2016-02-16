@@ -100,7 +100,7 @@
                                                 <hr>
                     
                                                 <div class="clearfix">
-                                                    <a class="btn btn-default pull-right" href="<?php echo site_url().'complete-job/'.$job_seeker_request_id;?>" onClick="return confirm('Are you sure you want to mark this job as completed');">Mark as delivered</a>
+                                                    <a class="btn btn-default pull-right" href="<?php echo site_url().'complete-job/'.$job_seeker_request_id;?>" onClick="return confirm('Are you sure you want to mark this job as delivered');">Mark as delivered</a>
                     
                                                     <ul class="social-icons pull-left">
                                                         <li><span>Share</span></li>
