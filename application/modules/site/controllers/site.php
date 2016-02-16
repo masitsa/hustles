@@ -39,11 +39,28 @@ class Site extends CI_Controller
 		// $data['slideshow_location'] = $this->slideshow_location;
 		// $data['service_location'] = $this->service_location;
 		$data['home'] =  array('item one' => 1, );
-		$data['jobs'] = $this->site_model->get_all_home_jobs();
 		$v_data['title'] = 'Home';
 		$v_data['content'] = $this->load->view("home", $data, TRUE);
 		
 		$this->load->view("includes/templates/general", $v_data);
+	}
+	
+	public function all_jobs()
+	{
+		$query = $this->site_model->get_all_home_jobs();
+		
+		if($query->num_rows() > 0)
+		{
+			$result['message'] = 'success';
+			$result['result'] = $query->result();
+		}
+		
+		else
+		{
+			$result['message'] = 'error';
+		}
+		
+		echo json_encode($result);
 	}
 	
 	public function about($item = NULL)
@@ -303,6 +320,24 @@ class Site extends CI_Controller
 		}
 		
 		$this->load->view("departments/templates/single_department", $data);
+	}
+	
+	function purity()
+	{
+		for($i=0; $i<10;$i++)
+		{
+			echo $i;
+		}
+	}
+	
+	function purity2()
+	{
+		$i = 1;
+		while($i < 11)
+		{
+			echo $i;
+			$i++;
+		}
 	}
 	
 }
