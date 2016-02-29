@@ -49,7 +49,8 @@ class Users_model extends CI_Model
 		
 		return $query;
 	}
-	
+
+
 	/*
 	*	Retrieve all front end users
 	*

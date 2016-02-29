@@ -253,4 +253,12 @@ $route['about/(:any)'] = 'site/about/$1';
 *	Advertisers Routes
 */
 $route['all-companies'] = 'admin/companies';
+$route['all-companies/(:any)/(:any)/(:num)'] = 'admin/companies/index/$1/$2/$3';
+$route['all-companies/(:any)/(:any)'] = 'admin/companies/index/$1/$2';
+$route['add-company'] = 'admin/companies/add_company';
+$route['edit-company/(:num)'] = 'admin/companies/edit_company/$1';
+$route['delete-company/(:num)'] = 'admin/companies/delete_company/$1';
+$route['activate-company/(:num)'] = 'admin/companies/activate_company/$1';
+$route['deactivate-company/(:num)'] = 'admin/companies/deactivate_company/$1';
+
 $route['all-advertisments'] = 'admin/advertisments';

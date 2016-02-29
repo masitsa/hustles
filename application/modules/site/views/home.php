@@ -10,7 +10,7 @@
     <div id="page-content">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8 page-content">
+                <div class="col-sm-12 page-content">
                     <div class="title-lines">
                         <h3 class="mt0">Find a Job Per</h3>
                     </div>
@@ -267,7 +267,7 @@
                   
                 </div> <!-- end .page-content -->
 
-                <div class="col-sm-4 page-sidebar">
+               <!--  <div class="col-sm-4 page-sidebar">
                     <aside>
                         <div class="widget sidebar-widget white-container social-widget">
                             <h5 class="widget-title">Share Us</h5>
@@ -355,7 +355,8 @@
                             </div>
                         </div>
                     </aside>
-                </div> <!-- end .page-sidebar -->
+                </div>  -->
+                <!-- end .page-sidebar -->
             </div>
             <div class="row">
                 <div class="success-stories-section">

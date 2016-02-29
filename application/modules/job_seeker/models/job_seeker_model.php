@@ -26,8 +26,10 @@ class Job_seeker_model extends CI_Model
 	public function validate_user()
 	{
 		//select the user by email from the database
+		$where = array('job_seeker_email' => $this->input->post('job_seeker_email'), 'job_seeker_status' => 1, 'job_seeker_password' => md5($this->input->post('job_seeker_password')));
+		// var_dump($where); die();
 		$this->db->select('*');
-		$this->db->where(array('job_seeker_email' => $this->input->post('job_seeker_email'), 'job_seeker_status' => 1, 'job_seeker_password' => md5($this->input->post('job_seeker_password'))));
+		$this->db->where($where);
 		$query = $this->db->get('job_seeker');
 		
 		//if users exists
