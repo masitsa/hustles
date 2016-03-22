@@ -120,4 +120,13 @@ class Jobs_model extends CI_Model
 		return $query;
 
 	}
+	public function count_unread_jobs()
+	{
+		// '.$this->session->userdata('job_seeker_id').'
+
+		$this->db->where('job_category.job_category_id = jobs.job_category_id AND member.member_id = jobs.job_provider_id AND jobs.job_status = 0');
+		$query = $this->db->get('jobs,job_category,member');
+		
+		return $query->num_rows();
+	}
 }

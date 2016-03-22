@@ -112,5 +112,13 @@ class Jobs extends MX_Controller {
 
 		echo json_encode($response);
 	}
+	public function count_unread_jobs()
+	{
+		$data['unread_messages'] = $this->jobs_model->count_unread_jobs();
+		$data['jobs'] = $this->get_jobs(0);
+		
+		echo json_encode($data);
+	}
+	
 
 }

@@ -35,7 +35,7 @@ class Advertising extends MX_Controller {
 	{
 
 		$v_data['advertisments'] = $this->advertising_model->get_adverts();
-		
+		$v_data['total_amount'] = $this->advertising_model->get_amount_to_be_shared();
 		
 
 		$response['message'] = 'success';
@@ -54,6 +54,25 @@ class Advertising extends MX_Controller {
 		$response['message'] = 'success';
 		$response['result'] = $this->load->view('advertisments/single_advert', $v_data, true);
 
+		echo json_encode($response);
+	}
+	public function update_link_details($advert_id,$counter)
+	{
+		if($this->advertising_model->update_details($advert_id,$counter))
+		{
+			$response['message'] = 'success';
+		}
+		else
+		{
+			$response['message'] = 'fail';
+		}
+		echo json_encode($response);
+	}
+	public function time_to_leave($advert_id)
+	{
+		$response['stop_time'] = 1500;
+
+		$response['message'] = 'success';
 		echo json_encode($response);
 	}
 

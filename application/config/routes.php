@@ -261,4 +261,6 @@ $route['delete-company/(:num)'] = 'admin/companies/delete_company/$1';
 $route['activate-company/(:num)'] = 'admin/companies/activate_company/$1';
 $route['deactivate-company/(:num)'] = 'admin/companies/deactivate_company/$1';
 
-$route['all-advertisments'] = 'admin/advertisments';
+$route['all-advertisments'] = 'admin/advertising';
+$route['add-advert'] = 'admin/advertising/add_advert';
+$route['edit-advert/(:num)'] = 'admin/advertising/add_advert/$1';

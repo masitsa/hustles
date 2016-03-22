@@ -68,4 +68,46 @@ class Profile extends MX_Controller {
 		//echo $_GET['callback'].'(' . json_encode($response) . ')';
 		echo json_encode($response);
 	}
+	public function register_seeker()
+	{
+			$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('email_address', 'Email', 'trim|valid_email|required|xss_clean');
+		$this->form_validation->set_rules('phone_number', 'Phone Number', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('fullname', 'Name', 'trim|required|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			if($this->profile_model->register_member_details())
+			{
+				$response['message'] = 'success';
+			 	$response['result'] = 'Registration was successfull';
+			}
+			else
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = 'Something went wrong. Please try again';
+			}
+
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = $validation_errors;
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$response['message'] = 'fail';
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			}
+		}
+		echo json_encode($response);
+	}
 }
