@@ -30,7 +30,7 @@ class Advertising_model extends CI_Model
 		}
 
 		$this->db->select('*');
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = 1' );
+		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$this->session->userdata('job_seeker_id') );
 		$tables = 'view_trail';
 		$trail_query = $this->db->get('view_trail');
 
@@ -56,7 +56,7 @@ class Advertising_model extends CI_Model
 	public function update_details($advert_id,$counter)
 	{
 		$this->db->select('*');
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = 1' );
+		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$this->session->userdata('job_seeker_id') );
 		$tables = 'view_trail';
 		$this->db->order_by('trail_id','DESC');
 		$this->db->limit(1);
@@ -99,7 +99,7 @@ class Advertising_model extends CI_Model
 		}
 
 		$this->db->select('SUM(session_time) as total_time');
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = 1' );
+		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$this->session->userdata('job_seeker_id') );
 		$amount_query = $this->db->get('view_trail');
 		if($amount_query->num_rows() > 0)
 		{
@@ -132,7 +132,7 @@ class Advertising_model extends CI_Model
 					// insert value
 					$insertarray = array(
 						'advert_id'=>$advert_id,
-						'member_id'=>1,
+						'member_id'=>$this->session->userdata('job_seeker_id'),
 						'round'=>$round,
 						'session_time'=>$session_time
 						);
@@ -158,7 +158,7 @@ class Advertising_model extends CI_Model
 					// insert value
 					$update_array = array(
 						'advert_id'=>$advert_id,
-						'member_id'=>1,
+						'member_id'=>$this->session->userdata('job_seeker_id'),
 						'round'=>$round,
 						'session_time'=>$session_time
 						);
@@ -183,7 +183,7 @@ class Advertising_model extends CI_Model
 					// insert value
 					$insertarray = array(
 						'advert_id'=>$advert_id,
-						'member_id'=>1,
+						'member_id'=>$this->session->userdata('job_seeker_id'),
 						'round'=>$round,
 						'session_time'=>$session_time
 						);
