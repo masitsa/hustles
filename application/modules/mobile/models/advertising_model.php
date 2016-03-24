@@ -9,7 +9,7 @@ class Advertising_model extends CI_Model
 		
 		return $query;
 	}
-	public function get_advert_detail($advert_id)
+	public function get_advert_detail($advert_id, $job_seeker_id)
 	{	
 		// calculate total amount of time spent and amount to be shared
 		
@@ -30,7 +30,7 @@ class Advertising_model extends CI_Model
 		}
 
 		$this->db->select('*');
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$this->session->userdata('job_seeker_id') );
+		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$job_seeker_id );
 		$tables = 'view_trail';
 		$trail_query = $this->db->get('view_trail');
 
@@ -53,10 +53,10 @@ class Advertising_model extends CI_Model
 
 		return $advert_query;
 	}
-	public function update_details($advert_id,$counter)
+	public function update_details($advert_id, $counter, $job_seeker_id)
 	{
 		$this->db->select('*');
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$this->session->userdata('job_seeker_id') );
+		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$job_seeker_id );
 		$tables = 'view_trail';
 		$this->db->order_by('trail_id','DESC');
 		$this->db->limit(1);
@@ -99,7 +99,7 @@ class Advertising_model extends CI_Model
 		}
 
 		$this->db->select('SUM(session_time) as total_time');
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$this->session->userdata('job_seeker_id') );
+		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$job_seeker_id );
 		$amount_query = $this->db->get('view_trail');
 		if($amount_query->num_rows() > 0)
 		{
@@ -132,7 +132,7 @@ class Advertising_model extends CI_Model
 					// insert value
 					$insertarray = array(
 						'advert_id'=>$advert_id,
-						'member_id'=>$this->session->userdata('job_seeker_id'),
+						'member_id'=>$job_seeker_id,
 						'round'=>$round,
 						'session_time'=>$session_time
 						);
@@ -158,7 +158,7 @@ class Advertising_model extends CI_Model
 					// insert value
 					$update_array = array(
 						'advert_id'=>$advert_id,
-						'member_id'=>$this->session->userdata('job_seeker_id'),
+						'member_id'=>$job_seeker_id,
 						'round'=>$round,
 						'session_time'=>$session_time
 						);
@@ -183,7 +183,7 @@ class Advertising_model extends CI_Model
 					// insert value
 					$insertarray = array(
 						'advert_id'=>$advert_id,
-						'member_id'=>$this->session->userdata('job_seeker_id'),
+						'member_id'=>$job_seeker_id,
 						'round'=>$round,
 						'session_time'=>$session_time
 						);
@@ -210,7 +210,7 @@ class Advertising_model extends CI_Model
 	}
 	public function get_amount_to_be_shared()
 	{
-		$this->db->select('SUM(balance) as amount');
+		$this->db->select('SUM(advert_amount) as amount');
 		$this->db->where('advert_status = 1' );
 		$amount_query = $this->db->get('advertisments');
 		if($amount_query->num_rows() > 0)

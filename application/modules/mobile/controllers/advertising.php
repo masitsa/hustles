@@ -45,10 +45,10 @@ class Advertising extends MX_Controller {
 		echo json_encode($response);
 
 	}
-	public function get_advert_detail($advert_id)
+	public function get_advert_detail($advert_id, $job_seeker_id)
 	{
 		# code...
-		$v_data['advertisments'] = $this->advertising_model->get_advert_detail($advert_id);
+		$v_data['advertisments'] = $this->advertising_model->get_advert_detail($advert_id, $job_seeker_id);
 		
 
 		$response['message'] = 'success';
@@ -56,9 +56,9 @@ class Advertising extends MX_Controller {
 
 		echo json_encode($response);
 	}
-	public function update_link_details($advert_id,$counter)
+	public function update_link_details($advert_id,$counter, $job_seeker_id)
 	{
-		if($this->advertising_model->update_details($advert_id,$counter))
+		if($this->advertising_model->update_details($advert_id,$counter, $job_seeker_id))
 		{
 			$response['message'] = 'success';
 		}
