@@ -26,6 +26,7 @@ class Profile extends MX_Controller {
 		}
 		
 		$this->load->model('profile_model');
+		$this->load->model('advertising_model');
 	}
 	
 	public function get_client_profile($member_id)
@@ -33,6 +34,7 @@ class Profile extends MX_Controller {
 		$v_data['job_seeker_details'] = $this->profile_model->get_profile_details($member_id);
 
 		$response['message'] = 'success';
+		$v_data['member_id'] = $member_id;
 		$response['result'] = $this->load->view('job_seeker/seekers_profile', $v_data, true);
 
 		echo json_encode($response);
@@ -57,6 +59,7 @@ class Profile extends MX_Controller {
 			
 			$response['message'] = 'success';
 			$response['result'] = $newdata;
+			$response['job_seeker_id'] = $result[0]->job_seeker_id;
 		}
 		
 		else

@@ -30,14 +30,13 @@ class Advertising extends MX_Controller {
 		
 		// $this->load->library('Mandrill', $this->config->item('mandrill_key'));
 	}
-
-	public function get_adverts()
+	
+	public function get_adverts($job_seeker_id)
 	{
-
 		$v_data['advertisments'] = $this->advertising_model->get_adverts();
 		$v_data['total_amount'] = $this->advertising_model->get_amount_to_be_shared();
 		
-
+		$v_data['job_seeker_id'] = $job_seeker_id;
 		$response['message'] = 'success';
 		$response['result'] = $this->load->view('advertisments/adverts_list', $v_data, true);
 
@@ -45,12 +44,13 @@ class Advertising extends MX_Controller {
 		echo json_encode($response);
 
 	}
+	
 	public function get_advert_detail($advert_id, $job_seeker_id)
 	{
 		# code...
 		$v_data['advertisments'] = $this->advertising_model->get_advert_detail($advert_id, $job_seeker_id);
 		
-
+		$v_data['job_seeker_id'] = $job_seeker_id;
 		$response['message'] = 'success';
 		$response['result'] = $this->load->view('advertisments/single_advert', $v_data, true);
 

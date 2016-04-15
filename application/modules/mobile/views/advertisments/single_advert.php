@@ -12,6 +12,10 @@ if($advertisments->num_rows() > 0)
 		$advert_views = $key->advert_views;
 		$company_name = $key->company_name;
 		$advert_link = $key->advert_link;
+		$balance = $key->balance;
+		$advert_amount = $key->advert_amount;
+		$advert_time = $key->advert_time;
+		$advert_views = $this->advertising_model->get_advert_views($advert_id);
 		if($advert_views == NULL)
 		{
 			$advert_views = 0;
@@ -30,25 +34,38 @@ if($advertisments->num_rows() > 0)
 		{
 			$title = 'views';
 		}
-		$made_amount = $advert_amount/ $views;
+		
+		$total_amount  =0;
+		$total_payable_amount = $this->advertising_model->calculate_amount_payable($advert_id, $job_seeker_id, $advert_time, $advert_amount);
+		$total_time_watched  =0;
+		$session_time  =0;
+		
 	}
+	$time_to_watch = (0.75*$advert_time)/60000;
 	$result .= '
 	<div class="row">
 		<div class="col-100">
-			<div class="pull-left">
+			<div >
 				<div class="pro-content">
-				<h4>KES. '.number_format($advert_amount).' Available</h4>
-				<h4 style="background-color:#EF7411;">KES. '.number_format($made_amount).' Made</h4>
-				</div>
-			</div>
-			<div class="pull-right">
-				<div class="pro-content">
-				<p>('.$advert_views.' '.$title.') </p>
+				<h4 style="background-color:#b39ddb; color:#424242;">KES. '.number_format($advert_amount).' <br/>Available</h4>
+				<h4 style="background-color:#ffcc80; color:#424242;">KES. '.number_format($total_payable_amount).'<br/> Made</h4>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	<div class="row">
+		<div class="col-100">
+			<div class="pro-content">
+				<p>('.$advert_views.' '.$title.') </p>
+			</div>
+		</div>
+	</div>
+  <div class="row">
+  	<div class="col-100">
+  		<h3 style="background-color:#EF7411;color:#ffffff;font-size: 0.8em;
+    padding: 2%;">You have to watch at least  '.$time_to_watch.' minutes to make your money </h3>
+  	</div>
+  </div>
 	<div class="row">
 		<div class="col-100">
 			<iframe id = "player_youtube" type = "text / html" width = "100%" height = "250"
@@ -56,11 +73,37 @@ if($advertisments->num_rows() > 0)
 	  frameborder = "0"> </ iframe>
 	  </div>
   </div>
+  
 	
 	';
 }
+
 
 echo $result;
 
 
 ?>
+<script type="text/javascript">
+	function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 60 * 5,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
+</script>
