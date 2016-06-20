@@ -15,6 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/hustles/';
+#$config['base_url']	= 'http://janta254.co.ke/';
 
 /*
 |--------------------------------------------------------------------------
@@ -371,6 +372,7 @@ $config['modules_locations'] = array(
 		APPPATH.'modules/' => '../modules/',
 	);
 
+$config['disbursment_cost'] = 33;
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

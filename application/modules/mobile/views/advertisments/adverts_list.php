@@ -1,24 +1,9 @@
 <?php
-$result = '
-<div class="row">
-	<div class="col-80">
-		<div class="total-revenue">
-			<div class="t-revenue-title"><h2>Advertisment Kitty</h2></div>
-			<div class="total-sale">
-				<h2>KES. '.number_format($total_amount).'</h2>
-			</div>
-		</div>
-	</div>
-	<div class="col-20">
-		<img src="img/kitty.gif">
-	</div>
-</div>
-<div class="row">
-';
+$result = '';
 
 if($advertisments->num_rows() > 0)
 {
-	$result .= '<table class="table table-bordered">';
+	$result .= '<ul>';
 	foreach ($advertisments->result() as $key) {
 		# code...
 		$advert_id = $key->advert_id;
@@ -26,7 +11,6 @@ if($advertisments->num_rows() > 0)
 		$company_name = $key->company_name;
 		$balance = $key->balance;
 		$advert_amount = $key->advert_amount;
-		$advert_views = $key->advert_views;
 		$company_name = $key->company_name;
 		$advert_link = $key->advert_link;
 
@@ -38,7 +22,7 @@ if($advertisments->num_rows() > 0)
 		if($this->advertising_model->check_watched($job_seeker_id, $advert_id, $advert_time))
 		{
 			$watched = '<div class="pro-content">
-						<h4 style="background-color:#c8e6c9; color:#424242;">Watched</h4>
+						<h4 style="background-color:#c8e6c9; color:#424242;font-size: 1em; padding: 2px; text-align: center; border: thin solid #c8e6c9; border-radius: 10px;">Watched</h4>
 					</div>';
 		}
 		
@@ -68,59 +52,36 @@ if($advertisments->num_rows() > 0)
 		
 		$total_amount  =0;
 		$total_payable_amount  = $this->advertising_model->calculate_amount_payable($advert_id, $job_seeker_id, $advert_time, $advert_amount);
-		
-		$result .= '
-		<tr>
-			<td colspan="2">'.$advert_title.'</td>
-		</tr>
-		
-		<tr>
-			<td colspan="2">
-				<!--<a class="pb-video" href="advert-single.html" onclick="get_advert_description('.$advert_id.', \''.$advert_link.'\');">-->
-					<div class="video-box">                 
-						<!--<img src="img/video/1.png" alt="">-->
-						'.$watched.'
-						<div class="youtube" id="'.$advert_link.'" advert_id="'.$advert_id.'"></div>
-						<div class="pro-content"></div>
-					</div>
-				<!--</a>-->
-				<div style="float:right; width:50%">
-					<p>'.$time_to_watch.' seconds</p>
-				</div>
-				<div style="width:50%">
-					<p>('.$advert_views.' '.$title.')</p>
-				</div>
-			</td>
-		</tr>
-		
-		<tr>
-			<td>
-				<div class="col-100">
-					<div class="pro-content">
-						<h4 style="background-color:#b39ddb; color:#424242;">KES. '.number_format($advert_amount).' <br/>Available</h4>
-					</div>
-				</div>
-			</td>
-			
-			<td>
-				<div class="col-100">
-					<div class="pro-content">
-						<h4 style="background-color:#ffcc80; color:#424242;">KES. '.number_format($total_payable_amount).'<br/> Made</h4>
-					</div>
-				</div>
-			</td>
-		</tr>';
+		$result .='
+					 <li>
+					      <a href="dist/single-advert.html"  onclick="get_advert_description('.$advert_id.', \''.$advert_link.'\');" class="item-link item-content">
+					        <div class="item-media"><img src="http://img.youtube.com/vi/'.$advert_link.'/0.jpg" width="80"></div>
+					        <div class="item-inner">
+					          <div class="item-title-row">
+					            <div class="item-title">'.$advert_title.'</div>
+					          </div>
+					          <div class="item-after">KES. '.number_format($advert_amount).'</div>
+					          <div class="item-subtitle">KES. '.number_format($total_payable_amount).' Made</div>
+					          <div class="row item-text-footer">
+					          	<div class="col-50">
+					          		('.$advert_views.' '.$title.')
+					          	</div>
+					          	<div class="col-50 right">
+					          	    '.$watched.'
+					          	</div>
+					          	</div>
+					        </div>
+					      </a>
+					    </li>
+					';
 
 	}
 	
-	$result .= '</table>';
+	$result .= '</ul>';
 }
 else
 {
-	$result = '
-			<div class="col-100">
-			  	<p>No Adverts yet</p>
-			  </div>';
+	$result = '';
 }
 $result .='</div>';
 echo $result;

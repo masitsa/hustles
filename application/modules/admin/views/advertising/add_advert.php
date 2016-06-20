@@ -22,22 +22,54 @@
 		                <!-- post category -->
 		                <!-- First Name -->
 		                <div class="form-group">
+		                    <label class="col-lg-4 control-label">Company</label>
+		                    <div class="col-lg-8">
+		                        <select class="form-control" name="company_id">
+                                	<?php
+									if($companies->num_rows() > 0)
+									{
+										foreach($companies->result() as $res)
+										{
+											$company_id = $res->company_id;
+											$company_name = $res->company_name;
+											?>
+                                            <option value="<?php echo $company_id;?>"><?php echo $company_name;?></option>
+                                            <?php
+										}
+									}
+									?>
+                                </select>
+		                    </div>
+		                </div>
+		                <div class="form-group">
 		                    <label class="col-lg-4 control-label">Advert Title</label>
 		                    <div class="col-lg-8">
-		                        <input type="text" name="advert_title" class="form-control" placeholder=" Name of event"/>
+		                        <input type="text" name="advert_title" class="form-control" placeholder="Advert Title"/>
 		                    </div>
 		                </div>
 		                <div class="form-group">
-		                    <label class="col-lg-4 control-label">Stream link</label>
+		                    <label class="col-lg-4 control-label">Video ID</label>
 		                    <div class="col-lg-8">
-		                        <input type="text" name="advert_link" class="form-control" placeholder=" Link value"/>
+		                        <input type="text" name="advert_link" class="form-control" placeholder="Video ID"/>
 		                    </div>
 		                </div>
 		                <div class="form-group">
-		                    <label class="col-lg-4 control-label">Activate live stream?</label>
+		                    <label class="col-lg-4 control-label">Advert Amount</label>
+		                    <div class="col-lg-8">
+		                        <input type="text" name="advert_amount" class="form-control" placeholder="Advert Amount"/>
+		                    </div>
+		                </div>
+		                <div class="form-group">
+		                    <label class="col-lg-4 control-label">Advert Length (Minutes)</label>
+		                    <div class="col-lg-8">
+		                        <input type="text" name="advert_time" class="form-control" placeholder="Advert Length"/>
+		                    </div>
+		                </div>
+		                <div class="form-group">
+		                    <label class="col-lg-4 control-label">Activate advert?</label>
 		                    <div class="col-lg-8">
 		                        <input type="radio" name="advert_status"  checked value="1"> Yes
-		                        <input type="radio" name="advert_status"  value="2"> No
+		                        <input type="radio" name="advert_status"  value="0"> No
 		                    </div>
 		                 </div>
 		                <div class="form-actions center-align">

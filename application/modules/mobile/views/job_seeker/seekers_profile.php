@@ -26,91 +26,39 @@
 			      <div class="row">
 			      	<div class="row">
 			      		
-			            <div class="col-50 tablet-33">
-			              	<form >
-								<strong>Name:</strong><br> '.$job_seeker_last_name.' <br>
-								<strong>Email:</strong><br> '.$job_seeker_email.'<br>
-								
-							</form>
+			            <div class="col-60">
+					<strong>Name:</strong><br> '.$job_seeker_last_name.' <br>
+					<strong>Phone:</strong><br> '.$job_seeker_phone.'<br>
+					
 			            </div>
-			             <div class="col-50 tablet-33">
-			             	<form >
-			             	<strong>Phone:</strong><br> '.$job_seeker_phone.'
-								
-							</form>
+			             <div class="col-40">
+			             	<strong>Email:</strong><br> '.$job_seeker_email.'
 			             </div>
 			         </div>
 			        </div>
 			      </div>
 			    </div>
-			    <a class="back link" onClick="myStopFunction();" href="#">
-			    <div class="accordin-title" ><h3> Watch as many adverts to earn more money</h3></div>
-			   </a>
+			    
 			    <div class="row">
-			    		<div class="col-100 tablet-50">
-							<div class="total-revenue">
-								<div class="row" style="padding-left:10px;padding-right:10px;">
-								<!-- <div class="t-revenue-title"><h2>Total Revenue</h2></div> -->
-									<div class="total-sale pull-left">
-										<h4>Total Earnings</h4>
-										<h2>KES. '.number_format($total_amount_payable,0).'</h2>
-									</div>
-									<div class="total-sale pull-right">
-										<h4>Total Withdrawals</h4>
-										<h2>KES. 0</h2>
-									</div>
-								</div>
-								<br>
-								<div class="total-sale">
-									<h4>Account Balance</h4>
-									<h2>KES. '.number_format($total_amount_payable,0).'</h2>
-								</div>
-								<div class="col-100 tablet-50">
-									<div class="total-sale-list">
-										<ul>
-											<li>
-												<h5>Advertisers</h5>
-												<h4>KES. '.number_format($total_amount_payable,0).'</h4>
-											</li>
-											<li>
-												<h5>Jobs</h5>
-												<h4>KES. 0.00</h4>
-											</li>
-											<li>
-												<h5>Bonuses</h5>
-												<h4>KES. 0.00</h4>
-											</li>						
-										</ul>
-									</div>
-								</div>
-							</div>	
-					</div>
-			    </div>
-				<div class="about-accordin">
-				  	<div class="list-block">
-					    <ul>
-					      <li class="accordion-item"><a href="#" class="item-content item-link">
-					          <div class="item-inner">
-					            <div class="item-title">Request for Withdrawal</div>
-					          </div></a>
-					        <div class="accordion-item-content">
-					          <div class="content-block">
-					          		<div class="cart-contenttext">
-					                   <form action="shopping-cart.html#">
-											<div class="inputbox">
-												Amount: <input type="text" name="amount" value="" placeholder="400" required>
-											</div>
-											<div class="inputbox">
-												<button class="mybutton">SUBMIT REQUEST</button>
-											</div>	
-										</form>
-									</div>
-					          </div>
-					        </div>
-					      </li>
-					    </ul>
-					</div>
+		    		<div class="col-100 tablet-50">
+					<div class="total-revenue">
+						<div class="row" style="padding-left:10px;padding-right:10px;">
+						<!-- <div class="t-revenue-title"><h2>Total Revenue</h2></div> -->
+							<div class="total-sale pull-left">
+								<h4 style="font-size:1em;">Total Earnings</h4>
+								<h2 style="font-size:0.8em;">KES. '.number_format($total_amount_payable,0).'</h2>
+							</div>
+							<div class="total-sale pull-right">
+								<h4 style="font-size:1em;">Total Payments</h4>
+								<h2 style="font-size:0.8em;">KES. 0</h2>
+							</div>
+						</div>
+					</div>	
 				</div>
+			    </div>
+			    <a class="back link" onClick="myStopFunction();get_adverts();" href="#">
+			    <!--<div class="accordin-title" ><h3>Money will be remitted after two weeks</h3></div>-->
+			   </a>
 		';
 	}
 echo $result;

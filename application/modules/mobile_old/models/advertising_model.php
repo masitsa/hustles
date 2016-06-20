@@ -4,44 +4,37 @@ class Advertising_model extends CI_Model
 {
 	public function calculate_amount_payable($advert_id, $job_seeker_id, $advert_time, $advert_amount)
 	{
-		$this->db->where('advert_id = '.$advert_id.' AND round = 1');
+		$this->db->select('MAX(view_trail.session_time) AS total_time, member_id');
+		$this->db->where('advert_id = '.$advert_id);
+		$this->db->group_by('member_id');
 		$amount_query = $this->db->get('view_trail');
-		$watched = $total_payable_amount = $total_time_watched = 0;
-		$total_views = $amount_query->num_rows();
+		$session_time = $total_payable_amount = $total_time_watched = 0;
 		
-		if($total_views > 0)
+		if($amount_query->num_rows() > 0)
 		{
 			foreach ($amount_query->result() as $key_amount) 
 			{
 				# code...
 				$member_id = $key_amount->member_id;
+				$total_time = $key_amount->total_time;
 				
 				if($member_id == $job_seeker_id)
 				{
-					$watched = 1;
+					$session_time = $total_time;
+				}
+
+				if($total_time >= (0.75*$advert_time))
+				{
+					$total_time_watched += $total_time;
 				}
 			}
-		}
-		
-		if($watched == 1)
-		{
-			$total_payable_amount = $advert_amount/$total_views;
-			
-			/*if($total_payable_amount > $this->config->item('disbursment_cost'))
+
+			if($session_time >= (0.75*$advert_time))
 			{
-				return ($total_payable_amount - $this->config->item('disbursment_cost'));	
+				$total_payable_amount=($advert_amount * $session_time)/$total_time_watched;
 			}
 			
-			else
-			{
-				return 0;
-			}*/
-			return $total_payable_amount;
-		}
-			
-		else
-		{
-			return 0;
+			return $total_payable_amount;	
 		}
 	}
 	
@@ -63,39 +56,56 @@ class Advertising_model extends CI_Model
 	
 	public function calculate_amount_payable2($job_seeker_id)
 	{
-		$this->db->where('view_trail.advert_id = advertisments.advert_id AND view_trail.member_id = '.$job_seeker_id.' AND round = 1');
+		$this->db->select('MAX(view_trail.session_time) AS max_time, view_trail.advert_id, advertisments.advert_time, advertisments.advert_amount');
+		$this->db->where('view_trail.advert_id = advertisments.advert_id AND view_trail.member_id = '.$job_seeker_id);
+		$this->db->group_by('advert_id');
 		$amount_query = $this->db->get('view_trail, advertisments');
 		$total_time = $total_payable_amount = 0;
 		
 		if($amount_query->num_rows() > 0)
 		{
-			foreach ($amount_query->result() as $key_amount) 
-			{
+			foreach ($amount_query->result() as $key_amount) {
 				# code...
 				$member_id = $job_seeker_id;
+				$session_time = $key_amount->max_time;
+				$advert_time = $key_amount->advert_time;
 				$advert_amount = $key_amount->advert_amount;
 				$advert_id = $key_amount->advert_id;
 
-				//get total time watched by all members
-				$total_time_watched = 0;
-				$this->db->where('advert_id', $advert_id);
-				$query = $this->db->get('view_trail');
-				$total_views = $query->num_rows();
-				if($total_views > 0)
+				if($session_time >= (0.75*$advert_time))
 				{
+					//get total time watched by all members
+					$total_time_watched = 0;
+					$this->db->select('MAX(session_time) AS total_time_watched, member_id');
+					$this->db->where('advert_id', $advert_id);
+					$this->db->group_by('member_id');
+					$query = $this->db->get('view_trail');
+					
+					if($query->num_rows() > 0)
+					{
+						foreach($query->result() as $res)
+						{
+							$watched = $res->total_time_watched;
+							
+							if($watched >= (0.75*$advert_time))
+							{
+								$total_time_watched += $watched;
+							}
+						}
+					}
+					
 					//calculate amount payable for the advert
-					$total_payable_amount += $advert_amount/$total_views;
+					$total_payable_amount += ($advert_amount * $session_time)/$total_time_watched;
 				}
 			}
+			
+			return $total_payable_amount;	
 		}
-		
-		return $total_payable_amount - $this->config->item('disbursment_cost');	
 	}
 	
 	public function get_adverts()
 	{
 		$this->db->where('advertisments.advert_status = 1 AND  company.company_id = advertisments.company_id');
-		$this->db->order_by('advertisments.created', 'DESC');
 		$query = $this->db->get('advertisments,company');
 		
 		return $query;
@@ -144,36 +154,79 @@ class Advertising_model extends CI_Model
 
 		return $advert_query;
 	}
-	public function update_details($advert_id, $job_seeker_id)
+	public function update_details($advert_id, $counter, $job_seeker_id)
 	{
+		//get advert time
+		$this->db->where('advert_id', $advert_id);
+		$query = $this->db->get('advertisments');
+		$advert_time = 0;
+		
+		if($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			$advert_time = $row->advert_time;
+		}
+		$time_checked_out = 0;
 		$this->db->select('*');
 		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$job_seeker_id );
 		$tables = 'view_trail';
 		$this->db->order_by('trail_id','DESC');
 		$trail_query = $this->db->get('view_trail');
 
-		if($trail_query->num_rows() == 0)
+		if($trail_query->num_rows() > 0)
 		{
-			$round = 1;
+			$round = $trail_query->num_rows();
+			foreach ($trail_query->result() as $key) {
+				# code...
+				$trail_id = $key->trail_id;
+				$session_time = $key->session_time;
+				// $session_time = 0;
+				$time_checked_out += $session_time;
+				$round = $round+1;
+				$new_session_time = $session_time * $round;
+				
+				if($new_session_time > $advert_time)
+				{
+					$new_session_time = $advert_time;
+				}
+				
+				// insert value
+				$insertarray = array(
+					'round'=>$round,
+					'session_time'=>$new_session_time
+					);
+				$this->db->where('trail_id', $trail_id);
+				if($this->db->update('view_trail',$insertarray))
+				{
+					return TRUE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
 		}
 		else
 		{
 			$round = 0;
-		}
-		// insert value
-		$insertarray = array(
+			$session_time = 2000;
+			$round = $round+1;
+			
+			// insert value
+			$insertarray = array(
 				'advert_id'=>$advert_id,
-				'created'=>date('Y-m-d H:i:s'),
 				'member_id'=>$job_seeker_id,
-				'round'=>$round
-			);
-		if($this->db->insert('view_trail', $insertarray))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
+				'round'=>$round,
+				'session_time'=>$session_time
+				);
+			if($this->db->insert('view_trail',$insertarray))
+			{
+				return TRUE;
+			}
+			else
+			{
+				return FALSE;
+			}
 		}
 
 	}
@@ -200,7 +253,9 @@ class Advertising_model extends CI_Model
 	
 	public function get_advert_views($advert_id)
 	{
-		$this->db->where('advert_id = '.$advert_id.' AND round = 1');
+		$this->db->select('MAX(view_trail.session_time) AS total_time, member_id');
+		$this->db->where('advert_id = '.$advert_id);
+		$this->db->group_by('member_id');
 		$amount_query = $this->db->get('view_trail');
 		
 		$views = $amount_query->num_rows();
@@ -210,12 +265,25 @@ class Advertising_model extends CI_Model
 	
 	public function check_watched($job_seeker_id, $advert_id, $advert_time)
 	{
-		$this->db->where('member_id = '.$job_seeker_id.' AND advert_id = '.$advert_id.' AND round = 1');
+		$this->db->select('MAX(view_trail.session_time) AS total_time');
+		$this->db->where('member_id = '.$job_seeker_id.' AND advert_id = '.$advert_id);
 		$amount_query = $this->db->get('view_trail');
 		
 		if(($amount_query->num_rows() == 1))
 		{
-			return TRUE;
+			$row = $amount_query->row();
+			
+			$total_time = $row->total_time;
+			
+			if($total_time >= (0.75 * $advert_time))
+			{
+				return TRUE;
+			}
+			
+			else
+			{
+				return FALSE;
+			}
 		}
 		
 		else

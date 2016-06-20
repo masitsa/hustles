@@ -92,7 +92,7 @@ class Advertising extends admin {
 			$this->session->set_userdata('error_message', 'advert could not be deleted');
 		}
 		
-		redirect('all-advert');
+		redirect('all-advertisments');
 	}
     
 	/*
@@ -113,7 +113,7 @@ class Advertising extends admin {
 			$this->session->set_userdata('error_message', 'advert could not be activated');
 		}
 		
-		redirect('all-advert');
+		redirect('all-advertisments');
 	}
     
 	/*
@@ -134,7 +134,7 @@ class Advertising extends admin {
 			$this->session->set_userdata('error_message', 'advert could not be disabled');
 		}
 		
-		redirect('all-advert');
+		redirect('all-advertisments');
 	}
 
 	/*
@@ -145,9 +145,13 @@ class Advertising extends admin {
 	public function add_advert() 
 	{
 		//form validation rules
+		$this->form_validation->set_rules('company_id', 'Company', 'required|xss_clean');
 		$this->form_validation->set_rules('advert_link', 'Link', 'required|xss_clean');
 		$this->form_validation->set_rules('advert_status', 'Status', 'required|xss_clean');
-		$this->form_validation->set_rules('advert_title', 'Title', 'xss_clean');
+		$this->form_validation->set_rules('advert_title', 'Title', 'required|xss_clean');
+		$this->form_validation->set_rules('advert_amount', 'Advert Amount', 'required|xss_clean');
+		$this->form_validation->set_rules('advert_time', 'Advert Length', 'required|xss_clean');
+		$this->form_validation->set_rules('advert_status', 'Status', 'xss_clean');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -155,7 +159,7 @@ class Advertising extends admin {
 			//check if advert has valid login credentials
 			if($this->advertising_model->add_advert())
 			{
-				redirect('all-advert');
+				redirect('all-advertisments');
 			}
 			
 			else
@@ -166,7 +170,8 @@ class Advertising extends admin {
 		
 		//open the add new advert page
 		$data['title'] = 'Add New advert';
-		$data['content'] = $this->load->view('advertising/add_advert', '', TRUE);
+		$v_data['companies'] = $this->advertising_model->get_companies();
+		$data['content'] = $this->load->view('advertising/add_advert', $v_data, TRUE);
 		$this->load->view('templates/general_admin', $data);
 	}
     
@@ -179,9 +184,13 @@ class Advertising extends admin {
 	public function edit_advert($advert_id) 
 	{
 		//form validation rules
+		$this->form_validation->set_rules('company_id', 'Company', 'required|xss_clean');
 		$this->form_validation->set_rules('advert_link', 'Link', 'required|xss_clean');
 		$this->form_validation->set_rules('advert_status', 'Status', 'required|xss_clean');
-		$this->form_validation->set_rules('advert_title', 'Title', 'xss_clean');
+		$this->form_validation->set_rules('advert_title', 'Title', 'required|xss_clean');
+		$this->form_validation->set_rules('advert_amount', 'Advert Amount', 'required|xss_clean');
+		$this->form_validation->set_rules('advert_time', 'Advert Length', 'required|xss_clean');
+		$this->form_validation->set_rules('advert_status', 'Status', 'xss_clean');
 		
 		//if form has been submitted
 		if ($this->form_validation->run())
@@ -189,17 +198,8 @@ class Advertising extends admin {
 			//check if advert has valid login credentials
 			if($this->advertising_model->edit_advert($advert_id))
 			{
-				$this->session->set_advertdata('success_message', 'advert edited successfully');
-				$pwd_update = $this->input->post('admin_advert');
-				if(!empty($pwd_update))
-				{
-					redirect('admin-profile/'.$advert_id);
-				}
-				
-				else
-				{
-					redirect('all-advert');
-				}
+				$this->session->set_userdata('success_message', 'advert edited successfully');
+				redirect('all-advertisments');
 			}
 			
 			else
@@ -213,6 +213,7 @@ class Advertising extends admin {
 		
 		//select the advert from the database
 		$query = $this->advertising_model->get_advert($advert_id);
+		$v_data['companies'] = $this->advertising_model->get_companies();
 		if ($query->num_rows() > 0)
 		{
 			$v_data['advert'] = $query;

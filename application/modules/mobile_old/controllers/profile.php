@@ -110,8 +110,7 @@ class Profile extends MX_Controller {
 		$this->form_validation->set_rules('phone_number', 'Phone Number', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('fullname', 'Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('over_age', 'Age', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('terms', 'Terms & Conditions', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('dob', 'Date of Birth', 'trim|required|xss_clean');
 		
 		//if form conatins invalid data
 		if ($this->form_validation->run())

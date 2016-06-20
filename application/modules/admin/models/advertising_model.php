@@ -117,10 +117,16 @@ class Advertising_model extends CI_Model
 	*/
 	public function add_advert()
 	{
+		$advert_time = $this->input->post('advert_time');
+		$advert_time = $advert_time * 3600;
 		$data = array(
+				'company_id'=>$this->input->post('company_id'),
 				'advert_link'=>$this->input->post('advert_link'),
 				'advert_status'=>$this->input->post('advert_status'),
+				'advert_amount'=>$this->input->post('advert_amount'),
 				'advert_title'=>$this->input->post('advert_title'),
+				'advert_time'=>$advert_time,
+				'advert_status'=>$this->input->post('advert_status'),
 				'created'=>date('Y-m-d H:i:s')
 			);
 			
@@ -139,11 +145,16 @@ class Advertising_model extends CI_Model
 	*/
 	public function edit_advert($advert_id)
 	{
+		$advert_time = $this->input->post('advert_time');
+		$advert_time = $advert_time * 3600;
 		$data = array(
+				'company_id'=>$this->input->post('company_id'),
 				'advert_link'=>$this->input->post('advert_link'),
 				'advert_status'=>$this->input->post('advert_status'),
+				'advert_amount'=>$this->input->post('advert_amount'),
 				'advert_title'=>$this->input->post('advert_title'),
-				'created'=>date('Y-m-d H:i:s')
+				'advert_time'=>$advert_time,
+				'advert_status'=>$this->input->post('advert_status')
 			);
 			
 		$this->db->where('advert_id', $advert_id);
@@ -157,7 +168,10 @@ class Advertising_model extends CI_Model
 		}
 	}
 
-
-	
+	public function get_companies()
+	{
+		$this->db->order_by('company_name');
+		return $this->db->get('company');
+	}
 }
 ?>

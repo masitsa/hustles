@@ -43,13 +43,13 @@
 				if($row->advert_status == 0)
 				{
 					$status = '<span class="label label-important">Deadvert_status</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'activate-advert/'.$advert_id.'" onclick="return confirm(\'Do you want to activate '.$advert_title.'?\');">Activate</a>';
+					$button = '<a class="btn btn-info" href="'.site_url().'admin/advertising/activate_advert/'.$advert_id.'" onclick="return confirm(\'Do you want to activate '.$advert_title.'?\');">Activate</a>';
 				}
 				//create advert_status status display
 				else if($row->advert_status == 1)
 				{
 					$status = '<span class="label label-success">Active</span>';
-					$button = '<a class="btn btn-info" href="'.site_url().'deactivate-advert/'.$advert_id.'" onclick="return confirm(\'Do you want to deactivate '.$advert_title.'?\');">Deactivate</a>';
+					$button = '<a class="btn btn-info" href="'.site_url().'admin/advertising/deactivate_advert/'.$advert_id.'" onclick="return confirm(\'Do you want to deactivate '.$advert_title.'?\');">Deactivate</a>';
 				}
 				$count++;
 				$result .= 

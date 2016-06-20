@@ -96,10 +96,9 @@ class Profile_model extends CI_Model
 				'job_seeker_first_name'=>$this->input->post('fullname'),
 				'job_seeker_last_name'=>$this->input->post('fullname'),
 				'job_seeker_type'=>3,
-				'job_seeker_email'=>strtolower($this->input->post('email_address')),
+				'job_seeker_email'=>$this->input->post('email_address'),
 				'job_seeker_password'=>md5($this->input->post('password')),
-				'job_seeker_phone'=>$this->input->post('phone_number'),
-				'over_age'=>$this->input->post('over_age')
+				'job_seeker_phone'=>$this->input->post('phone_number')
 				);
 			if($this->db->insert('job_seeker',$insertarray))
 			{

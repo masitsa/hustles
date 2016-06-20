@@ -263,4 +263,4 @@ $route['deactivate-company/(:num)'] = 'admin/companies/deactivate_company/$1';
 
 $route['all-advertisments'] = 'admin/advertising';
 $route['add-advert'] = 'admin/advertising/add_advert';
-$route['edit-advert/(:num)'] = 'admin/advertising/add_advert/$1';
+$route['edit-advert/(:num)'] = 'admin/advertising/edit_advert/$1';
