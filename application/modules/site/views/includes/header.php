@@ -1,28 +1,42 @@
 <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CHOTO</title>
+    <!--[if IE]>
 
-    <title><?php echo $title;?></title>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 
-    <!-- Stylesheets -->
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/bootstrap.css">
-	<link rel="stylesheet" href="<?php echo base_url()."assets/themes/";?>fontawesome/css/font-awesome.css">
-    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/flexslider.css">
-    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/style.css">
-    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/careers/'?>css/responsive.css">
+<![endif]-->
 
-    <link media="all" type="text/css" href="<?php echo base_url()."assets/themes/careers/";?>assets/dashicons.css" rel="stylesheet">
-    <link media="all" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet">
-  <script src="<?php echo base_url().'assets/themes/jquery/'?>jquery-2.1.1.min.js"></script>
-    <script type='text/javascript' src='<?php echo base_url()."assets/themes/careers/";?>js/jquery-migrate.js'></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/themes/choto/'?>css/style.css" media="screen">
 
-    <?php /* === GOOGLE MAP JAVASCRIPT NEEDED (JQUERY) ==== */ ?>
-    <!--<script src="http://maps.google.com/maps/api/js?sensor=true" type="text/javascript"></script>
-    <script type='text/javascript' src='<?php echo base_url()."assets/themes/careers/";?>js/gmaps.js'></script>-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/themes/choto/'?>css/bootstrap.css" media="screen">
 
-    <!--[if IE 9]>
-        <script src="js/media.match.min.js"></script>
-    <![endif]-->
+    <link href="<?php echo base_url().'assets/themes/choto/'?>css/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/choto/'?>css/cycle.css" type="text/css">
+
+    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/choto/'?>css/portfolio.css" type="text/css">
+
+    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/choto/'?>css/lightbox.min.css">
+
+
+    <script src="<?php echo base_url().'assets/themes/choto/'?>js/libs/jquery-1.7.1.min.js"></script>
+
+    <script src="<?php echo base_url().'assets/themes/choto/'?>js/idangerous.swiper-1.8.min.js"></script>
+
+    <script src="<?php echo base_url().'assets/themes/choto/'?>js/bootstrap.js"></script>
+
+    <script src="<?php echo base_url().'assets/themes/choto/'?>js/custom.js"></script>
+
+    <script src="<?php echo base_url().'assets/themes/choto/'?>js/jquery.mCustomScrollbar.min.js"></script>
+
+    <script type="text/javascript" src="<?php echo base_url().'assets/themes/choto/'?>js/jquery.cycle.all.latest.js"></script>
+
+    <script type="text/javascript" src="<?php echo base_url().'assets/themes/choto/'?>js/skeleton.js"></script>
+    <script type="text/javascript" src="<?php echo base_url().'assets/themes/choto/'?>js/jquery05.js"></script>
+    <script type="text/javascript" src="<?php echo base_url().'assets/themes/choto/'?>js/moderniz.js"></script>
+    <script type="text/javascript" src="<?php echo base_url().'assets/themes/choto/'?>js/lightbox.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url().'assets/themes/choto/'?>custom/custom.css" type="text/css">
 </head>

@@ -145,4 +145,23 @@ class Profile_model extends CI_Model
 			}
 		}
 	}
+	public function update_request_detail($job_seeker_id)
+	{
+		$data  = array(
+						'member_id' => $job_seeker_id, 
+						'amount_requested' => $this->input->post('amount_to_withdraw'), 
+						'date_requested' => date('Y-m-d'), 
+					  );
+
+		if($this->db->insert('member_invoice',$data))
+		{
+			return TRUE;
+			// send sms to the member detail
+		}
+		else
+		{
+			return FALSE;
+		}
+
+	}
 }

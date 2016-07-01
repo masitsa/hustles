@@ -592,7 +592,7 @@ class Provider_model extends CI_Model
 						# code...
 						$job_seeker_first_name = $key->job_seeker_first_name;
 						$job_seeker_last_name = $key->job_seeker_last_name;
-						$job_seeker_phone = $key->job_seeker_phone;
+						$job_seeker_phone = 254704808007;//$key->job_seeker_phone;
 						$job_title = $key->job_title;
 						$contact_person_name = $key->contact_person_name;
 						$contact_person_phone = $key->contact_person_phone;

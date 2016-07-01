@@ -44,18 +44,18 @@ if($advertisments->num_rows() > 0)
 	
 	$result .='
 		        <div class="content-block-inner">
-		          <p>'.$advert_title.'</p>
-		          <div class="row">
-					<div class="col-50" padding: 2%;">
-						<h4 style="background-color:#b39ddb; color:#424242; font-size: 1em; text-align: center;">KES. '.number_format($advert_amount).' <br/>Available</h4>
+		          <p style="text-align:center;">'.ucwords($advert_title).'</p>
+		          	<div class="row">
+		          		<h3 style="color: grey;font-size: 1em;font-style: italic;padding: 2%;text-align:center;">** You have to watch the entire video to be rewarded </h3>
+						<div class="col-50" padding: 2%;">
+							<h4 style="background-color:#b39ddb; color:#424242; font-size: 1em; text-align: center; border-radius: 10px;">KES. '.number_format($advert_amount).' <br/>Available Earning </h4>
 						</div>
 						<div class="col-50" padding: 2%;">
-						<h4 style="background-color:#ffcc80; color:#424242; font-size: 1em; text-align: center;">KES. '.number_format($total_payable_amount).'<br/> Made</h4>
+							<h4 style="background-color:#ffcc80; color:#424242; font-size: 1em; text-align: center; border-radius: 10px;">KES. '.number_format($total_payable_amount).'<br/> Likely Earning</h4>
 						</div>
 					</div>
 		          	<!--<h3 style="background-color:#EF7411;color:#ffffff;font-size: 0.8em; padding: 2%;">You have to watch at least  '.$time_to_watch.' minutes to make your money </h3>-->
-					<h3 style="background-color:#EF7411;color:#ffffff;font-size: 0.8em; padding: 2%;">You have to watch the entire video to make your money </h3>
-					<h3 style="background-color:#EF7411;color:#ffffff;font-size: 0.8em; padding: 2%;">After watching the video please wait to be paid. You will receive a notification once completed.</h3>
+					
 		        </div>
 		      
 			  ';

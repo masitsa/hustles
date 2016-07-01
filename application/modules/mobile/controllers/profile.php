@@ -122,6 +122,14 @@ class Profile extends MX_Controller {
 			{
 				$response['message'] = 'success';
 			 	$response['result'] = 'Registration was successfull';
+			 	
+			 	$job_seeker_phone = $this->input->post('phone_number');
+			 	$fullname = $this->input->post('fullname');
+			 	
+			 	$delivery_message = "Hello $fullname, Thank you for registering to Choto. Please watch as many ads as possible to be reward. Note that all transactions shall be made to $job_seeker_phone. Enjoy";
+
+				$this->advertising_model->sms($job_seeker_phone,$delivery_message);
+
 			 	$response['job_seeker_id'] = $return['job_seeker_id'];
 			}
 			else
@@ -151,7 +159,96 @@ class Profile extends MX_Controller {
 		}
 		echo json_encode($response);
 	}
-	
+	public function request_for_payment($job_seeker_id)
+	{
+		$this->form_validation->set_error_delimiters('', '');
+		$this->form_validation->set_rules('accept', 'Check box', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('amount_to_withdraw', 'Phone Number', 'trim|required|xss_clean');
+		
+		//if form conatins invalid data
+		if ($this->form_validation->run())
+		{
+			// check the current balance 
+			$total_invoiced = $this->advertising_model->calculate_amount_invoices($job_seeker_id);
+		  	$total_receipted = $this->advertising_model->calculate_amount_receipted($job_seeker_id);
+		  	$account_balance = $total_invoiced - $total_receipted;
+
+		  	$amount_to_withdraw = $this->input->post('amount_to_withdraw');
+		  	$actual_balance = $account_balance - $amount_to_withdraw;
+		  	$response['items'] = $amount_to_withdraw;
+		  	$checker = $this->advertising_model->check_for_requested($job_seeker_id);
+		  	$response['actual_balance'] = $account_balance;
+		  	$profile_rs = $this->profile_model->get_profile_details($job_seeker_id);
+		  	if($profile_rs->num_rows() > 0)
+		  	{
+		  		foreach ($profile_rs->result() as $key) {
+		  			# code...
+		  			$job_seeker_id = $key->job_seeker_id;
+		  			$job_seeker_last_name = $key->job_seeker_last_name;
+		  			$job_seeker_phone = $key->job_seeker_phone;
+		  		}
+		  	}
+		  	if($checker > 0)
+		  	{
+		  		$response['message'] = 'fail';
+				 $response['result'] = 'Sorry there is a pending transaction. Please wait for it to be serviced then do the request';
+
+				 $delivery_message = "Hello $job_seeker_last_name, Sorry there is a pending transaction. Please wait for it to be serviced then do the request";
+
+				$this->advertising_model->sms($job_seeker_phone,$delivery_message);
+		  	}
+		  	else
+		  	{
+			  	if($actual_balance < 0)
+			  	{
+			  		$response['message'] = 'success';
+				 	$response['result'] = 'Insufficient money in your account. Please watch as many ads as possible';
+				 	$delivery_message = "You have insufficient money in your account. Please watch as more ads to get rewarded";
+
+					$this->advertising_model->sms($job_seeker_phone,$delivery_message);
+			  	}
+			  	else
+			  	{
+					$return = $this->profile_model->update_request_detail($job_seeker_id);
+					//var_dump($return);
+					if($return == TRUE)
+					{
+						$response['message'] = 'success';
+					 	$response['result'] = 'Your transaction is being processed. Please wait for your reward shortly';
+
+					 	$delivery_message = "Your transaction is being processed. Please wait for your reward shortly";
+
+						$this->advertising_model->sms($job_seeker_phone,$delivery_message);
+					}
+					else
+					{
+						$response['message'] = 'fail';
+					 	$response['result'] = $return['message'];
+					}
+				}
+		  	}
+		  	
+		}
+		else
+		{
+			$validation_errors = validation_errors();
+			
+			//repopulate form data if validation errors are present
+			if(!empty($validation_errors))
+			{
+				$response['message'] = 'fail';
+			 	$response['result'] = $validation_errors;
+			}
+			
+			//populate form data on initial load of page
+			else
+			{
+				$response['message'] = 'fail';
+				$response['result'] = 'Ensure that you have entered all the values in the form provided';
+			}
+		}
+		echo json_encode($response);
+	}
 	public function reset_password()
 	{
 		$this->form_validation->set_error_delimiters('', '');

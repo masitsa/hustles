@@ -8,6 +8,7 @@ class Advertising extends admin {
 	{
 		parent:: __construct();
 		$this->load->model('advertising_model');
+		$this->load->model('provider/provider_model');
 		$this->load->model('users_model');
 	}
     
@@ -18,7 +19,7 @@ class Advertising extends admin {
 	*/
 	public function index() 
 	{
-		$where = 'advert_id > 0';
+		$where = 'advert_id > 0 ';
 		$table = 'advertisments';
 		//pagination
 		$this->load->library('pagination');
@@ -136,7 +137,20 @@ class Advertising extends admin {
 		
 		redirect('all-advertisments');
 	}
-
+	public function close_advert($advert_id)
+	{
+		if($this->advertising_model->close_activate_advert($advert_id))
+		{
+			$this->session->set_userdata('success_message', 'advert has been disabled');
+		}
+		
+		else
+		{
+			$this->session->set_userdata('error_message', 'advert could not be disabled');
+		}
+		
+		redirect('all-advertisments');
+	}
 	/*
 	*
 	*	Add a new user page

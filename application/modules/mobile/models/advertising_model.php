@@ -91,6 +91,64 @@ class Advertising_model extends CI_Model
 		
 		return $total_payable_amount - $this->config->item('disbursment_cost');	
 	}
+	public function calculate_amount_invoices($job_seeker_id)
+	{
+		$this->db->where('member_id = '.$job_seeker_id.'');
+		$this->db->select('SUM(amount_made) AS amount');
+		$amount_query = $this->db->get('invoice');
+		$total_payable_amount = 0;
+		
+		if($amount_query->num_rows() > 0)
+		{
+			foreach ($amount_query->result() as $key_amount) 
+			{
+				# code...
+				$amount = $key_amount->amount;
+				//get total time watched by all members
+				if($amount == NULL)
+				{
+					$amount = 0;
+				}
+				
+			}
+		}
+		
+		return $amount;	
+	}
+	public function check_for_requested($job_seeker_id)
+	{
+		$this->db->where('member_invoice_status = 1 AND member_id = '.$job_seeker_id.'');
+		$this->db->select('*');
+		$amount_query = $this->db->get('member_invoice');
+		
+		
+		return $amount_query->num_rows();	
+	}
+	public function calculate_amount_receipted($job_seeker_id)
+	{
+		$this->db->where('member_id = '.$job_seeker_id.'');
+		$this->db->select('SUM(amount_paid) AS amount');
+		$amount_query = $this->db->get('receipt');
+		$total_payable_amount = 0;
+		
+		if($amount_query->num_rows() > 0)
+		{
+			foreach ($amount_query->result() as $key_amount) 
+			{
+				# code...
+				$amount = $key_amount->amount;
+				//get total time watched by all members
+				if($amount == NULL)
+				{
+					$amount = 0;
+				}
+				
+			}
+		}
+		
+		return $amount;	
+	}
+	
 	
 	public function get_adverts()
 	{
@@ -223,4 +281,36 @@ class Advertising_model extends CI_Model
 			return FALSE;
 		}
 	}
+	public function sms($phone,$message)
+	{
+        // This will override any configuration parameters set on the config file
+		// max of 160 characters
+		// to get a unique name make payment of 8700 to Africastalking/SMSLeopard
+		// unique name should have a maximum of 11 characters
+		$phone_number = $phone;
+		// var_dump($phone_number) or die();
+        $params = array('username' => 'alviem', 'apiKey' => '1f61510514421213f9566191a15caa94f3d930305c99dae2624dfb06ef54b703');  
+        $this->load->library('AfricasTalkingGateway', $params);
+		// var_dump($params)or die();
+        // Send the message
+		try 
+		{
+			// 22384
+        	$results = $this->africastalkinggateway->sendMessage($phone_number, $message);
+			
+			//var_dump($results);die();
+			foreach($results as $result) {
+				// status is either "Success" or "error message"
+				// echo " Number: " .$result->number;
+				// echo " Status: " .$result->status;
+				// echo " MessageId: " .$result->messageId;
+				// echo " Cost: "   .$result->cost."\n";
+			}
+		}
+		
+		catch(AfricasTalkingGatewayException $e)
+		{
+			// echo "Encountered an error while sending: ".$e->getMessage();
+		}
+    }
 }
