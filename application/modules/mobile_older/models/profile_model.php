@@ -14,14 +14,6 @@ class Profile_model extends CI_Model
 		
 		return $query;
 	}
-	public function get_client_transactions($seeker_id)
-	{
-		$this->db->where('member_id = '.$seeker_id);
-		$query = $this->db->get('member_invoice');
-		
-		return $query;
-	
-	}
 	/*
 	*	Validate a member's login request
 	*

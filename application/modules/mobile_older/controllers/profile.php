@@ -289,15 +289,10 @@ class Profile extends MX_Controller {
 		}
 		echo json_encode($response);
 	}
-	
-	public function get_client_transactions($seeker_id)
+	public function get_terms()
 	{
-		$v_data['transactions_details'] = $this->profile_model->get_client_transactions($seeker_id);
-
 		$response['message'] = 'success';
-		$v_data['member_id'] = $seeker_id;
-		$response['member_id'] = $seeker_id;
-		$response['result'] = $this->load->view('job_seeker/transactions', $v_data, true);
+		$response['result'] = $this->load->view('job_seeker/terms', '', true);
 
 		echo json_encode($response);
 	}

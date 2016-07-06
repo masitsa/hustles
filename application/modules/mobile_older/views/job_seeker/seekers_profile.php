@@ -41,7 +41,7 @@
 				<div class="list-block">
 				  <ul>
 				    <li>
-				    	<a href="dist/transactions.html" class="item-link item-content" onclick="get_transactions()">
+				    	<a href="dist/transactions.html" class="item-link item-content">
 				        <div class="item-media"><i class="fa fa-money"></i></div>
 				        <div class="item-inner">
 				          <div class="item-title">MY TRANSACTIONS</div>

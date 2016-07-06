@@ -150,9 +150,9 @@ class Advertising_model extends CI_Model
 	}
 	
 	
-	public function get_adverts($featured)
+	public function get_adverts()
 	{
-		$this->db->where('advertisments.advert_status = 1 AND  company.company_id = advertisments.company_id AND advertisments.advert_status = 1  AND advertisments.featured = '.$featured);
+		$this->db->where('advertisments.advert_status = 1 AND  company.company_id = advertisments.company_id');
 		$this->db->order_by('advertisments.created', 'DESC');
 		$query = $this->db->get('advertisments,company');
 		
@@ -210,59 +210,22 @@ class Advertising_model extends CI_Model
 		$this->db->order_by('trail_id','DESC');
 		$trail_query = $this->db->get('view_trail');
 
-		if($trail_query->num_rows() > 0)
+		if($trail_query->num_rows() == 0)
 		{
-			$row = $trail_query->row();
-			$round = $row->round;
-			$trail_id = $row->trail_id;
-			$round++;
-			
-			// insert value
-			$insertarray = array(
-					'round'=>$round
-				);
-			$this->db->where('trail_id', $trail_id);
-			if($this->db->update('view_trail', $insertarray))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
+			$round = 1;
 		}
 		else
 		{
 			$round = 0;
-
-			// insert value
-			$insertarray = array(
-					'advert_id'=>$advert_id,
-					'created'=>date('Y-m-d H:i:s'),
-					'member_id'=>$job_seeker_id,
-					'round'=>$round
-				);
-			if($this->db->insert('view_trail', $insertarray))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
 		}
-
-	}
-
-	public function update_ratings($advert_id, $rating,$job_seeker_id)
-	{
-		
 		// insert value
-		$update_item = array(
-				'rating'=>$rating
+		$insertarray = array(
+				'advert_id'=>$advert_id,
+				'created'=>date('Y-m-d H:i:s'),
+				'member_id'=>$job_seeker_id,
+				'round'=>$round
 			);
-		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$job_seeker_id );
-		if($this->db->update('view_trail', $update_item))
+		if($this->db->insert('view_trail', $insertarray))
 		{
 			return TRUE;
 		}

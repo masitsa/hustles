@@ -34,8 +34,7 @@ class Advertising extends MX_Controller {
 	public function get_adverts($job_seeker_id)
 	{
 
-		$v_data['advertisments'] = $this->advertising_model->get_adverts(0);
-		$v_data['featured_advertisments'] = $this->advertising_model->get_adverts(1);
+		$v_data['advertisments'] = $this->advertising_model->get_adverts();
 		$v_data['total_amount'] = $this->advertising_model->get_amount_to_be_shared();
 		
 		$v_data['job_seeker_id'] = $job_seeker_id;
@@ -60,18 +59,6 @@ class Advertising extends MX_Controller {
 	public function update_link_details($advert_id, $job_seeker_id)
 	{
 		if($this->advertising_model->update_details($advert_id, $job_seeker_id))
-		{
-			$response['message'] = 'success';
-		}
-		else
-		{
-			$response['message'] = 'fail';
-		}
-		echo json_encode($response);
-	}
-	public function submit_advert_rating($advert_id,$rating,$job_seeker_id)
-	{
-		if($this->advertising_model->update_ratings($advert_id,$rating,$job_seeker_id))
 		{
 			$response['message'] = 'success';
 		}
