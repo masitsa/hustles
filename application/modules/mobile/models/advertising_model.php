@@ -1,10 +1,11 @@
 <?php
+define( 'API_ACCESS_KEY', 'AIzaSyA7jKwgBQ3JBSE7-pCmaJQDihl22QTEOwE');
 
 class Advertising_model extends CI_Model 
 {
 	public function calculate_amount_payable($advert_id, $job_seeker_id, $advert_time, $advert_amount)
 	{
-		$this->db->where('advert_id = '.$advert_id.' AND round = 1');
+		$this->db->where('ad_status = 1 AND advert_id = '.$advert_id);
 		$amount_query = $this->db->get('view_trail');
 		$watched = $total_payable_amount = $total_time_watched = 0;
 		$total_views = $amount_query->num_rows();
@@ -63,7 +64,7 @@ class Advertising_model extends CI_Model
 	
 	public function calculate_amount_payable2($job_seeker_id)
 	{
-		$this->db->where('view_trail.advert_id = advertisments.advert_id AND view_trail.member_id = '.$job_seeker_id.' AND round = 1');
+		$this->db->where('ad_status = 1 AND view_trail.advert_id = advertisments.advert_id AND view_trail.member_id = '.$job_seeker_id.' AND advertisments.advert_status = 1 AND advertisments.advert_type = 1 ');
 		$amount_query = $this->db->get('view_trail, advertisments');
 		$total_time = $total_payable_amount = 0;
 		
@@ -89,7 +90,7 @@ class Advertising_model extends CI_Model
 			}
 		}
 		
-		return $total_payable_amount - $this->config->item('disbursment_cost');	
+		return $total_payable_amount;	
 	}
 	public function calculate_amount_invoices($job_seeker_id)
 	{
@@ -152,7 +153,7 @@ class Advertising_model extends CI_Model
 	
 	public function get_adverts($featured)
 	{
-		$this->db->where('advertisments.advert_status = 1 AND  company.company_id = advertisments.company_id AND advertisments.advert_status = 1  AND advertisments.featured = '.$featured);
+		$this->db->where('company.company_id = advertisments.company_id AND (advertisments.advert_status = 1 OR  advertisments.advert_status = 3) AND advertisments.featured = '.$featured);
 		$this->db->order_by('advertisments.created', 'DESC');
 		$query = $this->db->get('advertisments,company');
 		
@@ -197,13 +198,27 @@ class Advertising_model extends CI_Model
 		}
 		// select the job
 
-		$this->db->where('advertisments.advert_status = 1 AND  company.company_id = advertisments.company_id AND advert_id = '.$advert_id);
+		$this->db->where('(advertisments.advert_status = 1 OR advertisments.advert_status = 3) AND  company.company_id = advertisments.company_id AND advert_id = '.$advert_id);
 		$advert_query = $this->db->get('advertisments,company');
 
 		return $advert_query;
 	}
-	public function update_details($advert_id, $job_seeker_id)
+	public function update_details($advert_id, $job_seeker_id, $latitude = NULL, $longitude = NULL)
 	{
+		//get advert status
+		$this->db->select('*');
+		$this->db->where('advert_id = '.$advert_id);
+		$advertisments = $this->db->get('advertisments');
+		$advert_status = 1;
+
+		if($advertisments->num_rows() > 0)
+		{
+			$row = $advertisments->row();
+			$advert_status = $row->advert_status;
+		}
+
+
+		//get any saved views
 		$this->db->select('*');
 		$this->db->where('advert_id = '.$advert_id.' AND member_id = '.$job_seeker_id );
 		$tables = 'view_trail';
@@ -219,7 +234,9 @@ class Advertising_model extends CI_Model
 			
 			// insert value
 			$insertarray = array(
-					'round'=>$round
+					'round'=>$round,
+					'latitude'=>$latitude,
+					'longitude'=>$longitude,
 				);
 			$this->db->where('trail_id', $trail_id);
 			if($this->db->update('view_trail', $insertarray))
@@ -237,10 +254,13 @@ class Advertising_model extends CI_Model
 
 			// insert value
 			$insertarray = array(
+					'ad_status'=>$advert_status,
 					'advert_id'=>$advert_id,
 					'created'=>date('Y-m-d H:i:s'),
 					'member_id'=>$job_seeker_id,
-					'round'=>$round
+					'round'=>$round,
+					'latitude'=>$latitude,
+					'longitude'=>$longitude,
 				);
 			if($this->db->insert('view_trail', $insertarray))
 			{
@@ -295,7 +315,7 @@ class Advertising_model extends CI_Model
 	
 	public function get_advert_views($advert_id)
 	{
-		$this->db->where('advert_id = '.$advert_id.' AND round = 1');
+		$this->db->where('advert_id = '.$advert_id);
 		$amount_query = $this->db->get('view_trail');
 		
 		$views = $amount_query->num_rows();
@@ -305,7 +325,7 @@ class Advertising_model extends CI_Model
 	
 	public function check_watched($job_seeker_id, $advert_id, $advert_time)
 	{
-		$this->db->where('member_id = '.$job_seeker_id.' AND advert_id = '.$advert_id.' AND round = 1');
+		$this->db->where('member_id = '.$job_seeker_id.' AND advert_id = '.$advert_id);
 		$amount_query = $this->db->get('view_trail');
 		
 		if(($amount_query->num_rows() == 1))
@@ -324,10 +344,15 @@ class Advertising_model extends CI_Model
 		// max of 160 characters
 		// to get a unique name make payment of 8700 to Africastalking/SMSLeopard
 		// unique name should have a maximum of 11 characters
-		$phone_number = $phone;
+		if (substr($phone, 0, 1) === '0') 
+		{
+			$phone = ltrim($phone, '0');
+		}
+		
+		$phone_number = '+254'.$phone;
 		// var_dump($phone_number) or die();
         $params = array('username' => 'alviem', 'apiKey' => '1f61510514421213f9566191a15caa94f3d930305c99dae2624dfb06ef54b703');  
-        $this->load->library('AfricasTalkingGateway', $params);
+        $this->load->library('africastalkinggateway', $params);
 		// var_dump($params)or die();
         // Send the message
 		try 
@@ -342,12 +367,92 @@ class Advertising_model extends CI_Model
 				// echo " Status: " .$result->status;
 				// echo " MessageId: " .$result->messageId;
 				// echo " Cost: "   .$result->cost."\n";
+				
+				return $result->status;
 			}
 		}
 		
 		catch(AfricasTalkingGatewayException $e)
 		{
 			// echo "Encountered an error while sending: ".$e->getMessage();
+			
+			return $e->getMessage();
 		}
     }
+    public function get_advert_message($advert_id)
+    {
+    	$this->db->select('advert_message_title,advert_response_title');
+		$this->db->where('advert_id = '.$advert_id);
+		$amount_query = $this->db->get('advertisments');
+		
+		return $amount_query;	
+    }
+    public function get_adverts_coupons($job_seeker_id)
+    {
+    	$this->db->select('COUNT(advertisments.advert_id) AS number');
+		$this->db->where('advertisments.advert_type = 2 AND view_trail.member_id = '.$job_seeker_id.' AND advertisments.advert_id = view_trail.advert_id');
+		$this->db->group_by('advertisments.advert_id');
+		$amount_query = $this->db->get('advertisments,view_trail');
+		$number = 0;
+		if($amount_query->num_rows() > 0)
+		{
+			foreach ($amount_query->result() as $key) {
+				# code...
+				$number = $key->number;
+			}
+		}
+		return $number;
+    }
+    public function get_job_seeker_coupons($job_seeker_id)
+    {
+    	$this->db->select('*');
+		$this->db->where('advertisments.advert_type = 2 AND view_trail.member_id = '.$job_seeker_id.' AND advertisments.advert_id = view_trail.advert_id');
+		$this->db->group_by('advertisments.advert_id');
+		$amount_query = $this->db->get('advertisments,view_trail');
+		$number = 0;
+		
+		return $amount_query;
+    }
+	
+	public function send_push_notification($to, $title, $message)
+	{
+		// API access key from Google API's Console
+		// replace API
+		
+		$registrationIds = array($to);
+		
+		$msg = array
+		(
+			'message' => $message,
+			'title' => $title,
+			'vibrate' => 1,
+			'sound' => 1
+			// you can also add images, additionalData
+		);
+		
+		$fields = array
+		(
+			'registration_ids' => $registrationIds,
+			'data' => $msg
+		);
+		$headers = array
+		(
+			'Authorization: key=' . API_ACCESS_KEY,
+			'Content-Type: application/json'
+		);
+		
+		$ch = curl_init();
+		curl_setopt( $ch,CURLOPT_URL, 'https://android.googleapis.com/gcm/send' );
+		curl_setopt( $ch,CURLOPT_POST, true );
+		curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+		curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+		
+		$result = curl_exec($ch );
+		
+		curl_close( $ch );
+		
+		return $result;
+	}
 }

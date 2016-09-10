@@ -100,6 +100,7 @@ class Profile_model extends CI_Model
 		{
 
 			$insertarray = array(
+				'referral_code'=>$this->input->post('referral_code'),
 				'job_seeker_dob'=>$this->input->post('dob'),
 				'job_seeker_first_name'=>$this->input->post('fullname'),
 				'job_seeker_last_name'=>$this->input->post('fullname'),

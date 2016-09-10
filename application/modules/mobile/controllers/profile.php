@@ -112,6 +112,8 @@ class Profile extends MX_Controller {
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('over_age', 'Age', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('terms', 'Terms & Conditions', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('referral_code', 'Referral Code', 'trim|xss_clean|exists[ambassadeur.referral_code]');
+		$this->form_validation->set_message('exists', 'That referral code does not exist. Please try again');
 		
 		//if form conatins invalid data
 		if ($this->form_validation->run())

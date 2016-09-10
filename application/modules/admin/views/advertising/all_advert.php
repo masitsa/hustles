@@ -30,7 +30,7 @@
 					  <th>Advert title</th>
 					  <th>Date Created</th>
 					  <th>Status</th>
-					  <th colspan="5">Actions</th>
+					  <th colspan="6">Actions</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -39,6 +39,7 @@
 			{
 				$advert_id = $row->advert_id;
 				$advert_title = $row->advert_title;
+				$advert_web_name = $this->site_model->create_web_name($advert_title);
 				//create deadvert_status status display
 				if($row->advert_status == 0)
 				{
@@ -68,6 +69,7 @@
 						<td><a href="'.site_url().'close-advert/'.$advert_id.'" class="btn btn-sm btn-primary" onclick="return confirm(\'Do you really want invoice for '.$advert_title.' advertiment?\');">Close</a></td>
 						<td>'.$button.'</td>
 						<td><a href="'.site_url().'delete-advert/'.$advert_id.'" class="btn btn-sm btn-danger" onclick="return confirm(\'Do you really want to delete '.$advert_title.'?\');">Delete</a></td>
+						<td>'.form_open('advert-notification/'.$advert_id).'<input type="hidden" name="advert_title" value="'.$advert_title.'"> <button type="submit" class="btn btn-sm btn-warning" onsubmit="return confirm(\'Do you really want to send notifications for '.$advert_title.'?\');">Notify</button>'.form_close().'</td>
 					</tr> 
 				';
 			}

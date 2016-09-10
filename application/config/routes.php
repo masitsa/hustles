@@ -265,3 +265,4 @@ $route['all-advertisments'] = 'admin/advertising';
 $route['add-advert'] = 'admin/advertising/add_advert';
 $route['close-advert/(:num)'] = 'admin/advertising/close_advert/$1';
 $route['edit-advert/(:num)'] = 'admin/advertising/edit_advert/$1';
+$route['advert-notification/(:num)'] = 'mobile/advertising/send_advert_notifications/$1';

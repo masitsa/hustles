@@ -15,6 +15,7 @@
                 <li><a href="<?php echo base_url()."all-jobs";?>"><i class="icon-list"></i> All Jobs</a></li>
                 <li><a href="<?php echo base_url()."all-providers";?>"><i class="icon-list"></i> Job Providers</a></li>
                 <li><a href="<?php echo base_url()."all-seekers";?>"><i class="icon-list"></i> Job Seekers</a></li>
+                <li><a href="<?php echo base_url()."ambassadeur/index";?>"><i class="icon-list"></i> Ambassadeurs</a></li>
 
                
                  <li class="has_submenu">

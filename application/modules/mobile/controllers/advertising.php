@@ -57,9 +57,9 @@ class Advertising extends MX_Controller {
 
 		echo json_encode($response);
 	}
-	public function update_link_details($advert_id, $job_seeker_id)
+	public function update_link_details($advert_id, $job_seeker_id, $latitude = NULL, $longitude = NULL)
 	{
-		if($this->advertising_model->update_details($advert_id, $job_seeker_id))
+		if($this->advertising_model->update_details($advert_id, $job_seeker_id, $latitude, $longitude))
 		{
 			$response['message'] = 'success';
 		}
@@ -73,7 +73,24 @@ class Advertising extends MX_Controller {
 	{
 		if($this->advertising_model->update_ratings($advert_id,$rating,$job_seeker_id))
 		{
+			$advert_query = $this->advertising_model->get_advert_message($advert_id);
+			if($advert_query->num_rows() > 0)
+			{
+				foreach ($advert_query->result() as $key) {
+					# code...
+					$advert_message_title = $key->advert_message_title;
+					$advert_response_title = $key->advert_response_title;
+					if($advert_message_title == NULL)
+					{
+						$advert_message_title = 'Thank you for watching the advertisment';
+						$advert_response_title = 'You have made some money!';
+					}
+
+				}
+			}
 			$response['message'] = 'success';
+			$response['result'] = $advert_message_title;
+			$response['title'] = $advert_response_title;
 		}
 		else
 		{
@@ -88,6 +105,81 @@ class Advertising extends MX_Controller {
 		$response['message'] = 'success';
 		echo json_encode($response);
 	}
+	public function get_coupons($job_seeker_id)
+	{
+		$coupons = $v_data['coupons'] = $this->advertising_model->get_job_seeker_coupons($job_seeker_id);
+		
+		$v_data['job_seeker_id'] = $job_seeker_id;
+		if($coupons->num_rows() > 0)
+		{
+			$response['message'] = 'success';
+			$response['result'] = $this->load->view('job_seeker/coupons', $v_data, true);
+		}
+		else
+		{
+			$response['message'] = 'fail';
+			$response['result'] = 'Sorry no coupons';
+		}
+		
 
-
+		echo json_encode($response);
+	}
+	
+	public function check_new_adverts($job_seeker_id, $to = NULL)
+	{
+		if($to != NULL)
+		{
+			//save if not exists
+			$this->db->where('job_seeker_id', $job_seeker_id);
+			$this->db->update('job_seeker', array('registration_id' => $to));
+			
+			/*$this->db->select('advertisments.*, a.member_id');
+			$this->db->where('advertisments.advert_status = 1');
+			$this->db->join('view_trail AS a', 'a.advert_id = advertisments.advert_id AND a.member_id = '.$job_seeker_id, 'INNER');
+			$query = $this->db->get('advertisments');
+			
+			if($query->num_rows() > 0)
+			{
+				foreach($query->result() as $res)
+				{
+					$member_id = $res->member_id;
+					
+					$advert_id = $res->advert_id;
+					$advert_title = $res->advert_title;
+					$message_title = 'Choto New Advert';
+					$title = $message_title;
+					$message = $advert_title;
+					$result = $this->advertising_model->send_push_notification($to, $title, $message);
+					
+					echo $result;
+				}
+			}*/
+		}
+	}
+	
+	public function send_advert_notifications($advert_id)
+	{
+		$advert_title = $this->input->post('advert_title');
+		$this->db->select('job_seeker.registration_id');
+		$this->db->where('job_seeker.registration_id IS NOT NULL AND job_seeker.job_seeker_id NOT IN (SELECT DISTINCT(member_id) FROM view_trail WHERE view_trail.advert_id = '.$advert_id.')');
+		$query = $this->db->get('job_seeker');
+		
+		if($query->num_rows() > 0)
+		{
+			foreach($query->result() as $res)
+			{
+				$to = $res->registration_id;
+				$message_title = 'Choto New Advert';
+				$title = $message_title;
+				$message = $advert_title;
+				$result = $this->advertising_model->send_push_notification($to, $title, $message);
+				
+				echo $result;
+			}
+		}
+		
+		$this->session->set_userdata('success_message', 'Advert notification has been successfully sent to '.$query->num_rows().' viewers');
+		
+		redirect('all-advertisments');
+	}
 }

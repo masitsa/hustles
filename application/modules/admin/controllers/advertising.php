@@ -10,6 +10,7 @@ class Advertising extends admin {
 		$this->load->model('advertising_model');
 		$this->load->model('provider/provider_model');
 		$this->load->model('users_model');
+		$this->load->model('site/site_model');
 	}
     
 	/*
