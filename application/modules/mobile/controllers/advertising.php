@@ -33,15 +33,16 @@ class Advertising extends MX_Controller {
 
 	public function get_adverts($job_seeker_id)
 	{
-
 		$v_data['advertisments'] = $this->advertising_model->get_adverts(0);
 		$v_data['featured_advertisments'] = $this->advertising_model->get_adverts(1);
 		$v_data['total_amount'] = $this->advertising_model->get_amount_to_be_shared();
+		$total_ads = $v_data['advertisments']->num_rows();
+		$total_featured_ads = $v_data['featured_advertisments']->num_rows();
 		
 		$v_data['job_seeker_id'] = $job_seeker_id;
 		$response['message'] = 'success';
 		$response['result'] = $this->load->view('advertisments/adverts_list', $v_data, true);
-		$response['total_ads'] = $v_data['advertisments']->num_rows();
+		$response['total_ads'] = $total_ads + $total_featured_ads;
 		
 		echo json_encode($response);
 

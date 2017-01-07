@@ -1,10 +1,9 @@
 <?php
 $result = '';
 
-$result .= '<ul style="margin-bottom:35px;">';
+$result .= '<div style="margin-bottom:35px;">';
 if($featured_advertisments->num_rows() > 0)
 {
-	
 	foreach ($featured_advertisments->result() as $key_featured) {
 		# code...
 		
@@ -55,45 +54,46 @@ if($featured_advertisments->num_rows() > 0)
 		$total_amount  =0;
 		$total_payable_amount  = $this->advertising_model->calculate_amount_payable($advert_id, $job_seeker_id, $advert_time, $advert_amount);
 		$result .='
-					 <li class="advert-item-list">
-					      <a href="dist/single-advert.html"  onclick="get_advert_description('.$advert_id.', \''.$advert_link.'\');" class="item-link item-content">
-					        <div class="item-media"><img src="http://img.youtube.com/vi/'.$advert_link.'/0.jpg" width="80"></div>
-					        <div class="item-inner">
-					          <div class="item-title-row">
-					            <div class="item-title ">'.$advert_title.'</div>
-					          </div>
-					          <div class="row">
-						          <div class="col-50 title-amount fa fa-bookmark-o"> KES. '.number_format($advert_amount).' Available </div>
-						          <div class="col-50 title-payable fa fa-money"> KES. '.number_format($total_payable_amount).' Earning</div>
-					          </div>
-					          <div class="row item-text-footer">
-					          	<div class="col-50 fa fa-eye">
-					          		 '.$advert_views.' '.$title.'
-					          	</div>
-					          	<div class="col-50 right">
-					          	    '.$watched.'
-					          	</div>
-					          	</div>
-					        </div>
-					      </a>
-					    </li>
-					';
+			<div class="card facebook-card">
+				<div class="card-header" style="color: #ff7900; display: block; padding: 10px;">
+					<div class="facebook-avatar" style="float: left;"><i class="fa fa-video-camera"></i></div>
+					<div class="facebook-name" style="font-size: 14px; font-weight: 500; margin-left: 44px;">'.$advert_title.'</div>
+					<div class="facebook-date" style="color: #8e8e93; font-size: 13px; margin-left: 44px;">KES. '.number_format($advert_amount).' Available</div>
+				</div>
+				<div class="card-content">
+					<img src="http://img.youtube.com/vi/'.$advert_link.'/0.jpg" width="100%">
+					<div class="card-content-inner" style="padding: 15px 10px; color:#000;">
+						<div class="row">
+							<div class="col-100">
+								'.$watched.'
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-50">
+								<i class="fa fa-eye"></i> '.$advert_views.' '.$title.'
+							</div>
+							<div class="col-50">
+								Kes. '.number_format($total_payable_amount).' Earned
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer" style="background:#ff7900;padding: 0;">
+					<a href="dist/single-advert.html"  onclick="get_advert_description('.$advert_id.', \''.$advert_link.'\');" class="link" style="color: #fff !important; width: 100%; font-weight:bold; float:left;text-align:center; display:block;">Watch</a>
+				</div>
+			</div>';
 
 	}
 	
 	
 }
-else
-{
-	$result = '';
-}
-$result .= '</ul>';
+$result .= '</div>';
 
 
-$result .= '<ul style="margin-bottom:35px;">';
+$result .= '<div style="margin-bottom:35px;">';
 if($advertisments->num_rows() > 0)
 {
-	
 	foreach ($advertisments->result() as $key) {
 		# code...
 		
@@ -144,38 +144,38 @@ if($advertisments->num_rows() > 0)
 		$total_amount  =0;
 		$total_payable_amount  = $this->advertising_model->calculate_amount_payable($advert_id, $job_seeker_id, $advert_time, $advert_amount);
 		$result .='
-					 <li class="advert-item-list">
-					      <a href="dist/single-advert.html"  onclick="get_advert_description('.$advert_id.', \''.$advert_link.'\');" class="item-link item-content">
-					        <div class="item-media"><img src="http://img.youtube.com/vi/'.$advert_link.'/0.jpg" width="80"></div>
-					        <div class="item-inner">
-					          <div class="item-title-row">
-					            <div class="item-title ">'.$advert_title.'</div>
-					          </div>
-					          <div class="row">
-						          <div class="col-50 title-amount fa fa-bookmark-o"> KES. '.number_format($advert_amount).' Available </div>
-						          <div class="col-50 title-payable fa fa-money"> KES. '.number_format($total_payable_amount).' Earning</div>
-					          </div>
-					          <div class="row item-text-footer">
-					          	<div class="col-50 fa fa-eye">
-					          		 '.$advert_views.' '.$title.'
-					          	</div>
-					          	<div class="col-50 right">
-					          	    '.$watched.'
-					          	</div>
-					          	</div>
-					        </div>
-					      </a>
-					    </li>
-					';
+			<div class="card facebook-card">
+				<div class="card-header" style="color: #ff7900; display: block; padding: 10px;">
+					<div class="facebook-avatar" style="float: left;"><i class="fa fa-video-camera"></i></div>
+					<div class="facebook-name" style="font-size: 14px; font-weight: 500; margin-left: 44px;">'.$advert_title.'</div>
+					<div class="facebook-date" style="color: #8e8e93; font-size: 13px; margin-left: 44px;">KES. '.number_format($advert_amount).' Available</div>
+				</div>
+				<div class="card-content">
+					<img src="http://img.youtube.com/vi/'.$advert_link.'/0.jpg" width="100%">
+					<div class="card-content-inner" style="padding: 15px 10px; color:#000;">
+						<div class="row">
+							<div class="col-100">
+								'.$watched.'
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-50">
+								<i class="fa fa-eye"></i> '.$advert_views.' '.$title.'
+							</div>
+							<div class="col-50">
+								Kes. '.number_format($total_payable_amount).' Earned
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-footer" style="background:#ff7900;padding: 0;">
+					<a href="dist/single-advert.html"  onclick="get_advert_description('.$advert_id.', \''.$advert_link.'\');" class="link" style="color: #fff !important; width: 100%; font-weight:bold; float:left;text-align:center; display:block;">Watch</a>
+				</div>
+			</div>';
 
 	}
-	
-	
 }
-else
-{
-	$result = '';
-}
-$result .= '</ul>';
+$result .= '</div>';
 echo $result;
 ?>
